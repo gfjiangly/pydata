@@ -1,0 +1,1 @@
+Search.setIndex({docnames:["helloworld","index"],envversion:53,filenames:["helloworld.rst","index.rst"],objects:{},objnames:{},objtypes:{},terms:{hello:1,index:1,modul:1,page:1,search:1,world:1},titles:["hello world","Welcome to pydata\u2019s documentation!"],titleterms:{document:1,hello:0,indic:1,pydata:1,tabl:1,welcom:1,world:0}})
