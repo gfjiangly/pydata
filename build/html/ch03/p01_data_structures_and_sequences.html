@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="../chapters/p03_build-in_data_structure_function_and_files.html" /> 
+    <link rel="prev" title="第三章：内建数据结构，函数和文件" href="../chapters/p03_build-in_data_structure_function_and_files.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -78,9 +78,17 @@
             
             
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">3.1 数据结构和序列</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">元组</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">列表</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p03_build-in_data_structure_function_and_files.html">第三章：内建数据结构，函数和文件</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.1 数据结构和序列</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">元组</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">列表</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">添加和移除元素</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">连接和组合列表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">排序</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -128,7 +136,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../chapters/p03_build-in_data_structure_function_and_files.html">&lt;no title&gt;</a> &raquo;</li>
+          <li><a href="../chapters/p03_build-in_data_structure_function_and_files.html">第三章：内建数据结构，函数和文件</a> &raquo;</li>
         
       <li>3.1 数据结构和序列</li>
     
@@ -179,7 +187,35 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b_list</span>
 <span class="go">[&#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;peekaboo&#39;</span>
+<span class="go">    &gt;&gt;&gt; b_list</span>
+<span class="go">    [&#39;foo&#39;, &#39;peekaboo&#39;, &#39;baz&#39;]</span>
 </pre></div>
+</div>
+<p>列表和元组在语义上(semantically)是相似的（虽然元组不能被修改），在许多函数中可被替换(interchangeably)使用。</p>
+<p>列表函数经常被作为一种具体化一个迭代器或生成表达式方式使用在数据处理：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">42</span><span class="p">]:</span> <span class="n">gen</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">43</span><span class="p">]:</span> <span class="n">gen</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">43</span><span class="p">]:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">44</span><span class="p">]:</span> <span class="nb">list</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">44</span><span class="p">]:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="section" id="id4">
+<h3>添加和移除元素<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>使用append方法可以追加元素到列表末端</p>
+<p>使用insert方法可以在列表的特定位置插入一个元素</p>
+<p>插入索引必须在0到列表长度之间，两端值也都包括(inclusive)。</p>
+<p>注意：插入比追加计算昂贵，因为涉及的子列必须在内部移动以为新元素腾出位置。
+如果你需要在一个序列的开头和结尾处插入元素，为此，你可以研究collection.deque，一个双端列队。</p>
+</div>
+<div class="section" id="id5">
+<h3>连接和组合列表<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>与元组相似，把两个列表加在一起使用+连接它们：</p>
+<p>如果你已经定义了一个list，你可以使用extend方法追加多个元素到list:</p>
+</div>
+<div class="section" id="id6">
+<h3>排序<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>你可以通过调用list的sort方法原位(in-plance)排序它（没有创建一个新list）：</p>
 </div>
 </div>
 </div>
@@ -193,7 +229,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="../chapters/p03_build-in_data_structure_function_and_files.html" class="btn btn-neutral" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../chapters/p03_build-in_data_structure_function_and_files.html" class="btn btn-neutral" title="第三章：内建数据结构，函数和文件" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
