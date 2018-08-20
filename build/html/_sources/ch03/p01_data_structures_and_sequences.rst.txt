@@ -84,5 +84,93 @@ python的数据结构是简单但强大的。掌握它们的使用是成为一�
 
 你可以通过调用list的sort方法原位(in-plance)排序它（没有创建一个新list）：
 
+.. code-block:: python
 
+	In [61]: a = [7, 2, 5, 1, 3]
+	
+	In [62]: a.sort()
+	
+	In [63]: a
+	Out[63]: [1, 2, 3, 5, 7]
+	
+sort有几个选项偶尔会派上用场(come in handy). 
+一种是能够传递一个二级排序键--产生一个值来排序对象的函数。
+例如，我们可以通过字符串长度来排序一个字符串容器：
 
+.. code-block:: python
+
+	In [64]: b = ['saw', 'small', 'He', 'foxes', 'six']
+	
+	In [65]: b.sort(key=len)
+	
+	In [66]: b
+	Out[66]: ['He', 'saw', 'six', 'small', 'foxes']
+	
+很快我们将关注sorted函数，可以产生一个通用序列排好序的副本。
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+二分搜索(Binary search)和维护排序列表
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+内置的bisect模块实现二进制搜索并插入到排好序的列表中。
+bisect.bisect查找一个元素应该被插入的位置，插入后还是排好序的，bisect.insort实际插入元素到那个位置：
+
+.. code-block:: python
+
+	In [67]: import bisect
+	
+	In [68]: c = [1, 2, 2, 2, 3, 4, 7]
+	
+	In [69]: bisect.bisect(c, 2)
+	Out[69]: 4
+	
+	In [70]: bisect.bisect(c, 5)
+	Out[70]: 6
+	
+	In [71]: bisect.insort(c, 6)
+	
+	In [72]: c
+	Out[72]: [1, 2, 2, 2, 3, 4, 6, 7]
+	
+注意：bisect模块函数并不检查list是否已经排好序，因为检查的计算成本太高。
+因此，在一个未排好序的list上使用它们的操作可以成功不报错，但是可能得到的结果并不正确。
+
+~~~~~~~~~~~~~~~~~~~
+切片
+~~~~~~~~~~~~~~~~~~~
+
+你可以通过切片记号(notation)选择大多数序列类型对象的部分，由start:stop基本形式组成传递给索引操作[]：
+
+.. code-block:: python
+
+	In [73]: seq = [7, 2, 3, 7, 5, 6, 0, 1]
+	In [74]: seq[1:5]
+	Out[74]: [2, 3, 7, 5]
+
+切片的对象也可以由一个序列赋值：
+
+.. code-block:: python
+
+	In [75]: seq[3:4] = [6, 3]
+	In [76]: seq
+	Out[76]: [7, 2, 3, 6, 3, 5, 6, 0, 1]
+
+因为在start索引的元素被包含，stop索引的不被包含，所以元素数量是stop-start。
+
+start或stop都可以被省略(omit)，在这种情况下，默认分别从序列的开头和序列结尾：
+
+.. code-block:: python
+
+	In [77]: seq[:5]
+	Out[77]: [7, 2, 3, 6, 3]
+	In [78]: seq[3:]
+	Out[78]: [6, 3, 5, 6, 0, 1]
+
+负索引(negative indices)将序列相对于末尾切片：
+
+.. code-block:: python
+
+	In [79]: seq[-4:]
+	Out[79]: [5, 6, 0, 1]
+	In [80]: seq[-6:-2]
+	Out[80]: [6, 3, 5, 6]
