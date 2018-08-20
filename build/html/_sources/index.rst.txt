@@ -7,14 +7,8 @@ Welcome to pydata's documentation!
 ==================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
+   :glob:
 
-   helloworld
+   chapters/*
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
