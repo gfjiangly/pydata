@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.2 函数" href="p02_functions.html" />
     <link rel="prev" title="第三章：内建数据结构，函数和文件" href="../chapters/p03_build-in_data_structure_function_and_files.html" /> 
 
   
@@ -89,8 +90,18 @@
 <li class="toctree-l4"><a class="reference internal" href="#id7">切片</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">内置序列函数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#enumerate">enumerate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sorted">sorted</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#zip">zip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reversed">reversed</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p02_functions.html">3.2 函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_files_and_the_opreating_system.html">3.3 文件和操作系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_conclusion.html">3.4 总结</a></li>
 </ul>
 </li>
 </ul>
@@ -280,6 +291,7 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 <p>start或stop都可以被省略(omit)，在这种情况下，默认分别从序列的开头和序列结尾：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">77</span><span class="p">]:</span> <span class="n">seq</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">77</span><span class="p">]:</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
 <span class="n">In</span> <span class="p">[</span><span class="mi">78</span><span class="p">]:</span> <span class="n">seq</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">78</span><span class="p">]:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 </pre></div>
@@ -287,10 +299,120 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 <p>负索引(negative indices)将序列相对于末尾切片：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">79</span><span class="p">]:</span> <span class="n">seq</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">79</span><span class="p">]:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
 <span class="n">In</span> <span class="p">[</span><span class="mi">80</span><span class="p">]:</span> <span class="n">seq</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">80</span><span class="p">]:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
 </pre></div>
 </div>
+<p>切片语义需要一些习惯，特别是，如果你来自R或MATLAB。
+图3-1对正负整数切片是一个有用的指导。
+在图中，索引显示在格子边缘，帮助显示使用正负整数索引切片选择的开始和结束位置。</p>
+<p>第二个冒号后可以使用一个步长，用以每隔几个取元素:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">81</span><span class="p">]:</span> <span class="n">seq</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">81</span><span class="p">]:</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>一种机智的使用是使步长为-1，可以反向一个list或tuple:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">82</span><span class="p">]:</span> <span class="n">seq</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">82</span><span class="p">]:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+<img alt="../_images/Figure_3-1_Illustration_of_Python_slicing_conventions.bmp" src="../_images/Figure_3-1_Illustration_of_Python_slicing_conventions.bmp" />
+</div>
+</div>
+<div class="section" id="id8">
+<h2>内置序列函数<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>Python有几个(a handful of)有用的序列函数，您应该熟悉并随时使用它们。</p>
+<div class="section" id="enumerate">
+<h3>enumerate<a class="headerlink" href="#enumerate" title="Permalink to this headline">¶</a></h3>
+<p>迭代序列时想要跟踪当前项索引是很常见的。
+你自己做的方式可能是这样的:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">collection</span><span class="p">:</span>
+        <span class="c1"># do something with value</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>因为这是常见的，python有一个内建函数，enumerate，返回一个(i, value)元组序列:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">collection</span><span class="p">):</span>
+        <span class="c1"># do something with value</span>
+</pre></div>
+</div>
+<p>当你在索引数据时，一个有用的使用enumerate模式是生成一个映射序列（假定是唯一的）值到它们在序列中位置的dict:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">83</span><span class="p">]:</span> <span class="n">some_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">84</span><span class="p">]:</span> <span class="n">mapping</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">85</span><span class="p">]:</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">some_list</span><span class="p">):</span>
+        <span class="o">....</span><span class="p">:</span> <span class="n">mapping</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">86</span><span class="p">]:</span> <span class="n">mapping</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">86</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;bar&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sorted">
+<h3>sorted<a class="headerlink" href="#sorted" title="Permalink to this headline">¶</a></h3>
+<p>sorted函数从任何序列的元素返回一个新的排好序的list:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">87</span><span class="p">]:</span> <span class="nb">sorted</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">87</span><span class="p">]:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">88</span><span class="p">]:</span> <span class="nb">sorted</span><span class="p">(</span><span class="s1">&#39;horse race&#39;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">88</span><span class="p">]:</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>sorted函数在列表上接受和sort函数相同的参数。</p>
+</div>
+<div class="section" id="zip">
+<h3>zip<a class="headerlink" href="#zip" title="Permalink to this headline">¶</a></h3>
+<p>zip配对许多列表、元组或其它序列来创建一个元组列表:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">89</span><span class="p">]:</span> <span class="n">seq1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">]</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">90</span><span class="p">]:</span> <span class="n">seq2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">91</span><span class="p">]:</span> <span class="n">zipped</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">seq2</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">92</span><span class="p">]:</span> <span class="nb">list</span><span class="p">(</span><span class="n">zipped</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">92</span><span class="p">]:</span> <span class="p">[(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;one&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;baz&#39;</span><span class="p">,</span> <span class="s1">&#39;three&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>zip可以操作任意长度的序列，它产生的元素长度取决于最短的序列:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">93</span><span class="p">]:</span> <span class="n">seq3</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">94</span><span class="p">]:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">seq2</span><span class="p">,</span> <span class="n">seq3</span><span class="p">))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">94</span><span class="p">]:</span> <span class="p">[(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>zip一个很常见的使用是可能结合enumerate同时(simultaneously)迭代多个序列:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">95</span><span class="p">]:</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">seq2</span><span class="p">)):</span>
+        <span class="o">....</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">: </span><span class="si">{1}</span><span class="s1">, </span><span class="si">{2}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+        <span class="o">....</span><span class="p">:</span>
+<span class="mi">0</span><span class="p">:</span> <span class="n">foo</span><span class="p">,</span> <span class="n">one</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">bar</span><span class="p">,</span> <span class="n">two</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">baz</span><span class="p">,</span> <span class="n">three</span>
+</pre></div>
+</div>
+<p>给一个”zipped”序列，zip可以被聪明的应用于”unzip”序列。
+另一种方式实现这个是通过转换一行list到一列list。语法看起来有点神奇:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">96</span><span class="p">]:</span> <span class="n">pitchers</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Nolan&#39;</span><span class="p">,</span> <span class="s1">&#39;Ryan&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Roger&#39;</span><span class="p">,</span> <span class="s1">&#39;Clemens&#39;</span><span class="p">),</span>
+        <span class="o">....</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Schilling&#39;</span><span class="p">,</span> <span class="s1">&#39;Curt&#39;</span><span class="p">)]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">97</span><span class="p">]:</span> <span class="n">first_names</span><span class="p">,</span> <span class="n">last_names</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">pitchers</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">98</span><span class="p">]:</span> <span class="n">first_names</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">98</span><span class="p">]:</span> <span class="p">(</span><span class="s1">&#39;Nolan&#39;</span><span class="p">,</span> <span class="s1">&#39;Roger&#39;</span><span class="p">,</span> <span class="s1">&#39;Schilling&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">99</span><span class="p">]:</span> <span class="n">last_names</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">99</span><span class="p">]:</span> <span class="p">(</span><span class="s1">&#39;Ryan&#39;</span><span class="p">,</span> <span class="s1">&#39;Clemens&#39;</span><span class="p">,</span> <span class="s1">&#39;Curt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reversed">
+<h3>reversed<a class="headerlink" href="#reversed" title="Permalink to this headline">¶</a></h3>
+<p>reversed在反向顺序迭代序列元素:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">100</span><span class="p">]:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">100</span><span class="p">]:</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>记住，reversed是一个生成器（稍后将对此进行更详细的讨论），所以在具体化之前它不会创建一个反向序列（例如用list或for循环）。</p>
 </div>
 </div>
 </div>
@@ -302,6 +424,8 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p02_functions.html" class="btn btn-neutral float-right" title="3.2 函数" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../chapters/p03_build-in_data_structure_function_and_files.html" class="btn btn-neutral" title="第三章：内建数据结构，函数和文件" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

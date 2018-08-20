@@ -10,7 +10,7 @@
 最后，我们将关注python文件对象技术和与本地硬盘交互。
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :glob:
 
    ../ch03/*
