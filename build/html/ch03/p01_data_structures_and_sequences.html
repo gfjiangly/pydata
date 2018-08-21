@@ -685,7 +685,7 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 <div class="section" id="comprehensions">
 <h2>列表、字典和集合推导(<strong>comprehensions</strong>)<a class="headerlink" href="#comprehensions" title="Permalink to this headline">¶</a></h2>
 <p>列表推导是最受喜欢的python特性之一。
-它允许你简明地从容器过滤元素生成一个新列表，在一个简明表达式传入过滤器转换元素，它的基本形式是:</p>
+它允许你简洁地从容器过滤元素生成一个新列表，在一个简洁表达式中转换通过过滤器的元素，它的基本形式是:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">expr</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">collection</span> <span class="k">if</span> <span class="n">condition</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -697,7 +697,7 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 </pre></div>
 </div>
 <p>过滤条件可以省略，仅留下表达式。
-例如，给定一个字符串列表，我们过滤字符串长度小于等于2的，同时将首字母转成大写，像这样:</p>
+例如，给定一个字符串列表，我们过滤字符串长度小于等于2的，同时将字母转成大写，像这样:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">154</span><span class="p">]:</span> <span class="n">strings</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;as&#39;</span><span class="p">,</span> <span class="s1">&#39;bat&#39;</span><span class="p">,</span> <span class="s1">&#39;car&#39;</span><span class="p">,</span> <span class="s1">&#39;dove&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">]</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">155</span><span class="p">]:</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">strings</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">]</span>
@@ -705,11 +705,11 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 </pre></div>
 </div>
 <p>集合和字典推导是天然的扩展，在惯用地(<strong>idiomatically</strong>)相似方式产生集合和字典。
-字典理解像这个:</p>
+字典推导像这个:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dict_comp</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="o">-</span><span class="n">expr</span> <span class="p">:</span> <span class="n">value</span><span class="o">-</span><span class="n">expr</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">collection</span> <span class="k">if</span> <span class="n">condition</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>集合推导除了用花括号代替方括号外，与字典推导看起来很像:</p>
+<p>集合推导除了用花括号代替方括号外，与列表推导看起来很像:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">set_comp</span> <span class="o">=</span> <span class="p">{</span><span class="n">expr</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">collection</span> <span class="k">if</span> <span class="n">condition</span><span class="p">}</span>
 </pre></div>
 </div>

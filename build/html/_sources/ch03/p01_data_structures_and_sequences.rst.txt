@@ -566,7 +566,7 @@ set支持集合的数学运算，如并集、交集(intersection,)、差、和�
 -------------------------------------------
 
 列表推导是最受喜欢的python特性之一。
-它允许你简明地从容器过滤元素生成一个新列表，在一个简明表达式传入过滤器转换元素，它的基本形式是::
+它允许你简洁地从容器过滤元素生成一个新列表，在一个简洁表达式中转换通过过滤器的元素，它的基本形式是::
 
 	[expr for val in collection if condition]
 
@@ -578,7 +578,7 @@ set支持集合的数学运算，如并集、交集(intersection,)、差、和�
 			result.append(expr)
 
 过滤条件可以省略，仅留下表达式。
-例如，给定一个字符串列表，我们过滤字符串长度小于等于2的，同时将首字母转成大写，像这样::
+例如，给定一个字符串列表，我们过滤字符串长度小于等于2的，同时将字母转成大写，像这样::
 
 	In [154]: strings = ['a', 'as', 'bat', 'car', 'dove', 'python']
 
@@ -586,11 +586,11 @@ set支持集合的数学运算，如并集、交集(intersection,)、差、和�
 	Out[155]: ['BAT', 'CAR', 'DOVE', 'PYTHON']
 
 集合和字典推导是天然的扩展，在惯用地(**idiomatically**)相似方式产生集合和字典。
-字典理解像这个::
+字典推导像这个::
 
 	dict_comp = {key-expr : value-expr for value in collection if condition}
 
-集合推导除了用花括号代替方括号外，与字典推导看起来很像::
+集合推导除了用花括号代替方括号外，与列表推导看起来很像::
 
 	set_comp = {expr for value in collection if condition}
 
