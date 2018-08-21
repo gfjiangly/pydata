@@ -97,6 +97,17 @@
 <li class="toctree-l4"><a class="reference internal" href="#reversed">reversed</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">字典</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id10">从序列创建字典</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">默认值</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">合法的字典键类型</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">集合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comprehensions">列表、字典和集合推导(<strong>comprehensions</strong>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">嵌套列表推导</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="p02_functions.html">3.2 函数</a></li>
@@ -104,6 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="p04_conclusion.html">3.4 总结</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a></li>
 </ul>
 
             
@@ -413,6 +425,364 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 </pre></div>
 </div>
 <p>记住，reversed是一个生成器（稍后将对此进行更详细的讨论），所以在具体化之前它不会创建一个反向序列（例如用list或for循环）。</p>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>字典<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<p>dict可能是python中最重要的内置数据结构。
+一个更常见的名字是哈希表或关联数组。
+它是一个可变大小的键-值对容器，键和值都是python的对象。创建字典的一种方式是使用花括号(curly braces)，并用冒号分隔键值:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">101</span><span class="p">]:</span> <span class="n">empty_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">102</span><span class="p">]:</span> <span class="n">d1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span> <span class="p">:</span> <span class="s1">&#39;some value&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">103</span><span class="p">]:</span> <span class="n">d1</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">103</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;some value&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p>你可以使用和操作列表或元组相同的语法访问、插入、赋值元素:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">104</span><span class="p">]:</span> <span class="n">d1</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;an integer&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">105</span><span class="p">]:</span> <span class="n">d1</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">105</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;some value&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;an integer&#39;</span><span class="p">}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">106</span><span class="p">]:</span> <span class="n">d1</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">106</span><span class="p">]:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>你可以使用和检查一个列表或元组是否包含一个值相同的语法检查一个字典是否包含一个键:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">107</span><span class="p">]:</span> <span class="s1">&#39;b&#39;</span> <span class="ow">in</span> <span class="n">d1</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">107</span><span class="p">]:</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>你可以使用del关键字或pop方法删除键（删除键同时返回值）:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">108</span><span class="p">]:</span> <span class="n">d1</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;some value&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">109</span><span class="p">]:</span> <span class="n">d1</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">109</span><span class="p">]:</span>
+<span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;some value&#39;</span><span class="p">,</span>
+<span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+<span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;an integer&#39;</span><span class="p">,</span>
+<span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;some value&#39;</span><span class="p">}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">110</span><span class="p">]:</span> <span class="n">d1</span><span class="p">[</span><span class="s1">&#39;dummy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;another value&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">111</span><span class="p">]:</span> <span class="n">d1</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">111</span><span class="p">]:</span>
+<span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;some value&#39;</span><span class="p">,</span>
+<span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+<span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;an integer&#39;</span><span class="p">,</span>
+<span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;some value&#39;</span><span class="p">,</span>
+<span class="s1">&#39;dummy&#39;</span><span class="p">:</span> <span class="s1">&#39;another value&#39;</span><span class="p">}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">112</span><span class="p">]:</span> <span class="k">del</span> <span class="n">d1</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">113</span><span class="p">]:</span> <span class="n">d1</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">113</span><span class="p">]:</span>
+<span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;some value&#39;</span><span class="p">,</span>
+<span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+<span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;an integer&#39;</span><span class="p">,</span>
+<span class="s1">&#39;dummy&#39;</span><span class="p">:</span> <span class="s1">&#39;another value&#39;</span><span class="p">}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">114</span><span class="p">]:</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">d1</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;dummy&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">115</span><span class="p">]:</span> <span class="n">ret</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">115</span><span class="p">]:</span> <span class="s1">&#39;another value&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">116</span><span class="p">]:</span> <span class="n">d1</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">116</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;some value&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;an integer&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>keys和values方法分别给你字典键和值的迭代器。
+虽然键值对没有某种特别的顺序，但这两个函数输出的键和值列表是在相同的顺序:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">117</span><span class="p">]:</span> <span class="nb">list</span><span class="p">(</span><span class="n">d1</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">117</span><span class="p">]:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">118</span><span class="p">]:</span> <span class="nb">list</span><span class="p">(</span><span class="n">d1</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">118</span><span class="p">]:</span> <span class="p">[</span><span class="s1">&#39;some value&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="s1">&#39;an integer&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>你可以使用update方法融合一个字典到另一个中:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">119</span><span class="p">]:</span> <span class="n">d1</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;b&#39;</span> <span class="p">:</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">:</span> <span class="mi">12</span><span class="p">})</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">120</span><span class="p">]:</span> <span class="n">d1</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">120</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;some value&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;an integer&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>update方法原位修改字典，所以任何被传递去更新的数据，已存在的键它原来的值将丢弃。</p>
+<div class="section" id="id10">
+<h3>从序列创建字典<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>经常有想把两个序列逐元素配对成字典的情况。
+第一次尝试，你可能写的代码像下面这样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mapping</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">key_list</span><span class="p">,</span> <span class="n">value_list</span><span class="p">):</span>
+<span class="n">mapping</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+</pre></div>
+</div>
+<p>由于(since)dict本质上(essentially)是2元组的集合，因此dict函数接受一个2元组列表:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">121</span><span class="p">]:</span> <span class="n">mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))))</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">122</span><span class="p">]:</span> <span class="n">mapping</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">122</span><span class="p">]:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>后面我们将讨论dict comprehensions，另一种构建字典的优雅方式。</p>
+</div>
+<div class="section" id="id11">
+<h3>默认值<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>下面逻辑很常见:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">some_dict</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">some_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+<span class="k">else</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">default_value</span>
+</pre></div>
+</div>
+<p>字典方法get和pop能返回一个默认值，所以上面if-else语句块可以如下简写:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">value</span> <span class="o">=</span> <span class="n">some_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default_value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果key不存在get默认返回None，pop将抛出一个异常。
+对于赋值，一种常见的情况是dict中的值是其他集合，如列表。
+例如，你可以想象用单词的第一个字母对单词列表进行分类，形成一个列表字典:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">123</span><span class="p">]:</span> <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;bat&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;atom&#39;</span><span class="p">,</span> <span class="s1">&#39;book&#39;</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">124</span><span class="p">]:</span> <span class="n">by_letter</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">125</span><span class="p">]:</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="n">letter</span> <span class="o">=</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="k">if</span> <span class="n">letter</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">by_letter</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>                  <span class="n">by_letter</span><span class="p">[</span><span class="n">letter</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="p">]</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="k">else</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>                  <span class="n">by_letter</span><span class="p">[</span><span class="n">letter</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+<span class="o">.....</span><span class="p">:</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">126</span><span class="p">]:</span> <span class="n">by_letter</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">126</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;atom&#39;</span><span class="p">],</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;bat&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;book&#39;</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p>setdefault字典方法精确用于此目的。前面的(<strong>preceding</strong>)for循环可以写成:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+        <span class="n">letter</span> <span class="o">=</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">by_letter</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>内置collections模块有一个有用的defaultdict类，让这个甚至更简单。
+要创建一个，对于每个字典位置，你可以传递一个类型或函数来生成默认值:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="n">by_letter</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+        <span class="n">by_letter</span><span class="p">[</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id12">
+<h3>合法的字典键类型<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>尽管字典值可以是任何字典类型，但键通常是不可变对象，如标量(<strong>scalar</strong>)类型(int, float, string)、元组（所有在元组中的对象也要是不可变的）。
+技术术语叫可哈希能力(hashability)。
+你可以用hash函数检查一个对象是否是可哈希的:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">127</span><span class="p">]:</span> <span class="nb">hash</span><span class="p">(</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">127</span><span class="p">]:</span> <span class="mi">5023931463650008331</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">128</span><span class="p">]:</span> <span class="nb">hash</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">128</span><span class="p">]:</span> <span class="mi">1097636502276347782</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">129</span><span class="p">]:</span> <span class="nb">hash</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span> <span class="c1"># fails because lists are mutable</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span> <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">129</span><span class="o">-</span><span class="mi">800</span><span class="n">cd14ba8be</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="nb">hash</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span> <span class="c1"># fails because lists are mutable</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="n">unhashable</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;list&#39;</span>
+</pre></div>
+</div>
+<p>如果要使用一个list作为键，可将其转为tuple，只要它的元素也能够被哈希:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">130</span><span class="p">]:</span> <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">131</span><span class="p">]:</span> <span class="n">d</span><span class="p">[</span><span class="nb">tuple</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])]</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">132</span><span class="p">]:</span> <span class="n">d</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">132</span><span class="p">]:</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="mi">5</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>集合<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<p>set是一个无序且元素唯一的容器。
+你可以把它看成仅仅有键没有值的字典。
+集合可以使用两种方式创建：通过set函数或花括号{}:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">133</span><span class="p">]:</span> <span class="nb">set</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">133</span><span class="p">]:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">134</span><span class="p">]:</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">134</span><span class="p">]:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>set支持集合的数学运算，如并集、交集(intersection,)、差、和对称差(symmetric difference)。考虑下面两个示例集合:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">135</span><span class="p">]:</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">136</span><span class="p">]:</span> <span class="n">b</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>两个集合的并是出现在每个集合不同的元素的集合。
+使用union方法或|二进制操作符可以计算集合的并:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">137</span><span class="p">]:</span> <span class="n">a</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">137</span><span class="p">]:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">138</span><span class="p">]:</span> <span class="n">a</span> <span class="o">|</span> <span class="n">b</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">138</span><span class="p">]:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>交集包含两个集合都有的元素。&amp;操作符或intersection方法可以计算两个集合的交集:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">139</span><span class="p">]:</span> <span class="n">a</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">139</span><span class="p">]:</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">140</span><span class="p">]:</span> <span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">140</span><span class="p">]:</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>常用集合方法见表3-1.</p>
+<img alt="../_images/Table_3-1_python_set_operations.png" src="../_images/Table_3-1_python_set_operations.png" />
+<p>所有逻辑集合操作都具有就地对应(in-place counterparts)，使得你可以用结果替换操作符左侧的集合内容。
+对一个很大的集合来说，这可能是更有效率的:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">141</span><span class="p">]:</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">142</span><span class="p">]:</span> <span class="n">c</span> <span class="o">|=</span> <span class="n">b</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">143</span><span class="p">]:</span> <span class="n">c</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">143</span><span class="p">]:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">144</span><span class="p">]:</span> <span class="n">d</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">145</span><span class="p">]:</span> <span class="n">d</span> <span class="o">&amp;=</span> <span class="n">b</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">146</span><span class="p">]:</span> <span class="n">d</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">146</span><span class="p">]:</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>像字典和集合的元素通常是不可变的。如果有像列表一样的元素，必须将其转换为元组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">147</span><span class="p">]:</span> <span class="n">my_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">148</span><span class="p">]:</span> <span class="n">my_set</span> <span class="o">=</span> <span class="p">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">my_data</span><span class="p">)}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">149</span><span class="p">]:</span> <span class="n">my_set</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">149</span><span class="p">]:</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}</span>
+</pre></div>
+</div>
+<p>你也可检查一个集合是否是另一个集合的子集或超集:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">150</span><span class="p">]:</span> <span class="n">a_set</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">151</span><span class="p">]:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">a_set</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">151</span><span class="p">]:</span> <span class="kc">True</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">152</span><span class="p">]:</span> <span class="n">a_set</span><span class="o">.</span><span class="n">issuperset</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">})</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">152</span><span class="p">]:</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>集合相等当且仅当它们的内容相等:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">153</span><span class="p">]:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span> <span class="o">==</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">}</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">153</span><span class="p">]:</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="comprehensions">
+<h2>列表、字典和集合推导(<strong>comprehensions</strong>)<a class="headerlink" href="#comprehensions" title="Permalink to this headline">¶</a></h2>
+<p>列表推导是最受喜欢的python特性之一。
+它允许你简明地从容器过滤元素生成一个新列表，在一个简明表达式传入过滤器转换元素，它的基本形式是:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">expr</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">collection</span> <span class="k">if</span> <span class="n">condition</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>这与下面的for循环等效:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">collection</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">condition</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>过滤条件可以省略，仅留下表达式。
+例如，给定一个字符串列表，我们过滤字符串长度小于等于2的，同时将首字母转成大写，像这样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">154</span><span class="p">]:</span> <span class="n">strings</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;as&#39;</span><span class="p">,</span> <span class="s1">&#39;bat&#39;</span><span class="p">,</span> <span class="s1">&#39;car&#39;</span><span class="p">,</span> <span class="s1">&#39;dove&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">155</span><span class="p">]:</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">strings</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">155</span><span class="p">]:</span> <span class="p">[</span><span class="s1">&#39;BAT&#39;</span><span class="p">,</span> <span class="s1">&#39;CAR&#39;</span><span class="p">,</span> <span class="s1">&#39;DOVE&#39;</span><span class="p">,</span> <span class="s1">&#39;PYTHON&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>集合和字典推导是天然的扩展，在惯用地(<strong>idiomatically</strong>)相似方式产生集合和字典。
+字典理解像这个:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dict_comp</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="o">-</span><span class="n">expr</span> <span class="p">:</span> <span class="n">value</span><span class="o">-</span><span class="n">expr</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">collection</span> <span class="k">if</span> <span class="n">condition</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>集合推导除了用花括号代替方括号外，与字典推导看起来很像:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">set_comp</span> <span class="o">=</span> <span class="p">{</span><span class="n">expr</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">collection</span> <span class="k">if</span> <span class="n">condition</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>像列表推导一样，集合和字典推导主要(mostly)是便利，但是它们同样(similarly)可以使代码更容易编写和阅读。
+考虑来自前面的字符串列表。
+假设我们想要一个包含容器中字符串长度的集合，我们可以很方便地使用集合推导来计算:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">156</span><span class="p">]:</span> <span class="n">unique_lengths</span> <span class="o">=</span> <span class="p">{</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">strings</span><span class="p">}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">157</span><span class="p">]:</span> <span class="n">unique_lengths</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">157</span><span class="p">]:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>我们还可以使用map函数，在功能上更具表达性:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">158</span><span class="p">]:</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">strings</span><span class="p">))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">158</span><span class="p">]:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>作为一个简单的字典推导例子，我们可以创建一个字符串到它们在列表中位置的查阅表:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">159</span><span class="p">]:</span> <span class="n">loc_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">val</span> <span class="p">:</span> <span class="n">index</span> <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">strings</span><span class="p">)}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">160</span><span class="p">]:</span> <span class="n">loc_mapping</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">160</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;as&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;bat&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;car&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;dove&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="id14">
+<h3>嵌套列表推导<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>假定我们有一个包含一些英语和西班牙名字的列表的列表:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">161</span><span class="p">]:</span> <span class="n">all_data</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;Emily&#39;</span><span class="p">,</span> <span class="s1">&#39;Michael&#39;</span><span class="p">,</span> <span class="s1">&#39;Mary&#39;</span><span class="p">,</span> <span class="s1">&#39;Steven&#39;</span><span class="p">],</span>
+<span class="o">.....</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;Maria&#39;</span><span class="p">,</span> <span class="s1">&#39;Juan&#39;</span><span class="p">,</span> <span class="s1">&#39;Javier&#39;</span><span class="p">,</span> <span class="s1">&#39;Natalia&#39;</span><span class="p">,</span> <span class="s1">&#39;Pilar&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>你可能从几个文件得到这些名字，决定通过语言组织它们。
+现在，假如我们想要得到包含大于等于两个字母’e’的全部名字的单个列表。
+我们当然可以用一个简单的循环实现它:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">names_of_interest</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">all_data</span><span class="p">:</span>
+        <span class="n">enough_es</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span> <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">names_of_interest</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">enough_es</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>你实际上可以将整个操作包装(wrap)在单个嵌套列表解析中，像这样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">162</span><span class="p">]:</span> <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">all_data</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span> <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">163</span><span class="p">]:</span> <span class="n">result</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">163</span><span class="p">]:</span> <span class="p">[</span><span class="s1">&#39;Steven&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>首先，嵌套列表推导有点难以理解(a bit hard to wrap your head around)。
+列表推导的for部分按照嵌套顺序排列(arrange)，任何过滤条件像之前一样放在末尾。
+这里是另一个“扁平化(flantten)”整型元组列表到一个简单的整型列表中的例子:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">164</span><span class="p">]:</span> <span class="n">some_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">)]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">165</span><span class="p">]:</span> <span class="n">flattened</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">tup</span> <span class="ow">in</span> <span class="n">some_tuples</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tup</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">166</span><span class="p">]:</span> <span class="n">flattened</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">166</span><span class="p">]:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>记住，如果你要写一个嵌套for代替列表推导，for表达式的顺序是相同的:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flattened</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">tup</span> <span class="ow">in</span> <span class="n">some_tuples</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tup</span><span class="p">:</span>
+                <span class="n">flattened</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>你可以有任意多水平嵌套，但是如果你有超过2或3层嵌套，你可能要开始疑问，站在代码可读性角度这是否有意义。
+展示从一个列表推导里面嵌套列表推导，对区分语法而言是重要的，也是完全有效的(<strong>?</strong>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">167</span><span class="p">]:</span> <span class="p">[[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tup</span><span class="p">]</span> <span class="k">for</span> <span class="n">tup</span> <span class="ow">in</span> <span class="n">some_tuples</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">167</span><span class="p">]:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>这会生成一个列表的列表，而不是所有内部元素的展平列表。</p>
 </div>
 </div>
 </div>
