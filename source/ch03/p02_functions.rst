@@ -191,16 +191,76 @@ clean_strings函数现在也更具可重用性和通用性(**generic**)。
 ---------------------
 匿名（Lambda）函数
 ---------------------
+Python支持所谓的匿名的或叫lambda函数，是写只包含一条语句的函数的方式，语句的结果是函数的返回值。
+使用lambda关键字定义匿名函数，除了“我们正在声明一个匿名函数”外没有其他意思::
 
+def short_function(x):
+return x * 2
+equiv_anon = lambda x: x * 2
 
----------------
-部分参数应用
----------------
+我们通常在本书的剩下部分称这些函数为lambda函数。它们在数据分析方面尤其有用，因为你将看到，在许多情况下数据转换函数使用函数作为参数。
+传递lambda函数通常输入较少（和更清晰），而不是编写完全函数声明，或甚至将lambda函数赋值给局部变量。 例如，考虑这个例子::
+
+def apply_to_list(some_list, f):
+return [f(x) for x in some_list]
+ints = [4, 0, 1, 5, 6]
+apply_to_list(ints, lambda x: x * 2)
+
+你也可以写[x * 2 for x in ints],但是这里我们可以简洁地(**succinctly**)传递一份定制的操作给apply_to_list函数。
+另一个例子，假设你想分类一个字符串容器，通过每个字符串中可区分的字母::
+
+In [177]: strings = ['foo', 'card', 'bar', 'aaaa', 'abab']
+
+这里我们传递一个lambda函数给list的sort方法::
+
+In [178]: strings.sort(key=lambda x: len(set(list(x))))
+In [179]: strings
+Out[179]: ['aaaa', 'foo', 'abab', 'bar', 'card']
+
+提醒：
+匿名函数被叫做lambda函数的一个原因是，不像用def定义(declared)的函数，函数对象本身没有一个明确的__name__属性。
+
+--------------------------------
+Currying:部分(**partical**)参数应用
+--------------------------------
+
+Currying是计算机科学的行话(以数学家Haskell Curry命名(**named after**))，意思是通过部分参数应用从已存在的函数中得到(**derive**)新函数。
+举例，假设我们有一个不重要的函数，两个数相加::
+
+	def add_numbers(x, y):
+		return x + y
+
+使用这个函数，我们得到一个变量的新函数，add_five, 加5到这个参数上::
+
+	add_five = lambda y: add_numbers(5, y)
+
+add_number函数的第二个参数被叫做currying。这儿没有什么有趣的东西，我们实际做的就是定义一个新函数，调用已存在的函数。
+内置functools模型的partial函数可以简化这一过程::
+
+	from functools import partial
+	add_five = partial(add_numbers, 5)
 
 
 ---------------
 生成器
 ---------------
+
+有一致的方式迭代如list中的objects或文件中的lines等序列，是一种重要的Python特性。
+这是通过(by means of)迭代器协议(iterator protocol)实现的，迭代器协议是使对象可迭代的(iterable)通用(**generic**)方法。 例如，迭代dict会产生dict键::
+
+In [180]: some_dict = {'a': 1, 'b': 2, 'c': 3}
+In [181]: for key in some_dict:
+.....: print(key)
+a
+b
+c
+
+当你写for key in some_dict, Python解释器首先会尝试创建some_dict之外的迭代器::
+
+In [182]: dict_iterator = iter(some_dict)
+In [183]: dict_iterator
+Out[183]: <dict_keyiterator at 0x7fbbd5a9f908>
+
 
 
 ---------------
