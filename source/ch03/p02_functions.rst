@@ -248,21 +248,227 @@ add_number函数的第二个参数被叫做currying。这儿没有什么有趣�
 有一致的方式迭代如list中的objects或文件中的lines等序列，是一种重要的Python特性。
 这是通过(by means of)迭代器协议(iterator protocol)实现的，迭代器协议是使对象可迭代的(iterable)通用(**generic**)方法。 例如，迭代dict会产生dict键::
 
-In [180]: some_dict = {'a': 1, 'b': 2, 'c': 3}
-In [181]: for key in some_dict:
-.....: print(key)
-a
-b
-c
+	In [180]: some_dict = {'a': 1, 'b': 2, 'c': 3}
+	In [181]: for key in some_dict:
+	.....: 		print(key)
+	a
+	b
+	c
 
 当你写for key in some_dict, Python解释器首先会尝试创建some_dict之外的迭代器::
 
-In [182]: dict_iterator = iter(some_dict)
-In [183]: dict_iterator
-Out[183]: <dict_keyiterator at 0x7fbbd5a9f908>
+		In [182]: dict_iterator = iter(some_dict)
+		In [183]: dict_iterator
+		Out[183]: <dict_keyiterator at 0x7fbbd5a9f908>
+
+当像for循环这样的上下文中被使用到，迭代器是yield到Python解释器中的任何对象。
+许多参数是list或类似list的对象的方法也接受任何迭代器对象作为参数。这包括内建的方法如min、max和sum，以及类型构造函数如list、tuple::
+
+	In [184]: list(dict_iterator)
+	Out[184]: ['a', 'b', 'c']
+
+生成器是构造迭代器对象的一种简洁方式。正常函数执行和返回单个结果每次，生成器以懒加载方式返回多个结果的一个序列，在返回一个结果后暂停知道下一个结果被请求。
+为创建生成器，在函数中使用yield关键字代替return::
+
+	def squares(n=10):
+		print('Generating squares from 1 to {0}'.format(n ** 2))
+		for i in range(1, n + 1):
+			yield i ** 2
+
+当你实际调用生成器时，没有代码被立即执行::
+
+	In [186]: gen = squares()
+	In [187]: gen
+	Out[187]: <generator object squares at 0x7fbbd5ab4570>
+
+直到你从生成器中请求元素，它开始执行它的代码::
+
+	In [188]: for x in gen:
+	.....: 		print(x, end=' ')
+	Generating squares from 1 to 100
+	1 4 9 16 25 36 49 64 81 100
+
+~~~~~~~~~~~~~~~~
+生成器表达式
+~~~~~~~~~~~~~~~~
+
+另一种甚至更简洁的方式产生生成器是使用生成器表达式。
+这种生成器类似于(**analogue**)列表、字典和集合推导。
+创建生成器，括起列表推导使用圆括号(**parentheses**)代替方括号(**breckets**)::
+
+	In [189]: gen = (x ** 2 for x in range(100))
+	In [190]: gen
+	Out[190]: <generator object <genexpr> at 0x7fbbd5ab29e8>
+
+这完全与下面更为繁杂的生成器等效::
+
+	def _make_gen():
+		for x in range(100):
+			yield x ** 2
+	gen = _make_gen()
+
+在大量场合，生成器表达式可以代替列表推导作为函数参数::
+
+	In [191]: sum(x ** 2 for x in range(100))
+	Out[191]: 328350
+	
+	In [192]: dict((i, i **2) for i in range(5))
+	Out[192]: {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
 
 
+~~~~~~~~~~~~~~~~
+itertools模块
+~~~~~~~~~~~~~~~~
 
+标准库itertools模块为大量通用数据算法而写的生成器集合。
+例如，groupby用任何序列和函数作为参数，通过参数中函数返回值分组序列中连续的(**consecutive**)元素。这里有一个例子::
+
+	In [193]: import itertools
+	
+	In [194]: first_letter = lambda x: x[0]
+	
+	In [195]: names = ['Alan', 'Adam', 'Wes', 'Will', 'Albert', 'Steven']
+	
+	In [196]: for letter, names in itertools.groupby(names, first_letter):
+	.....: 		print(letter, list(names)) # names is a generator
+	A ['Alan', 'Adam']
+	W ['Wes', 'Will']
+	A ['Albert']
+	S ['Steven']
+
+表3-2是其它itertools函数清单，这些函数时常让我觉得很有用。
+更多关于这些有用的内置实用模块，你要去查看Python官方的文档。
+
+.. image:: images/Table_3-2_Some_useful_itertools_functions.png
+	:width: 800
+
+	
 ---------------
 错误和异常处理
 ---------------
+
+仔细处理Python错误或异常时构建健壮程序的重要部分。
+在数据分析应用中，许多函数仅在特定输入下起作用。
+举一个例子，Python的float函数能够转换字符串为浮点数，但不恰当的输入会执行失败产生ValueError::
+
+	In [197]: float('1.2345')
+	Out[197]: 1.2345
+	In [198]: float('something')
+	---------------------------------------------------------------------------
+	ValueError Traceback (most recent call last)
+	<ipython-input-198-439904410854> in <module>()
+	----> 1 float('something')
+	ValueError: could not convert string to float: 'something'
+
+假定我们想要一个优雅版本的float函数，执行失败返回输入参数。
+我们可以通过写一个函数在try/except块围住float调用来做这件事::
+
+	def attempt_float(x):
+	try:
+		return float(x)
+	except:
+		return x
+
+在except中的代码仅在float(x)抛出一个异常情况下执行::
+
+	In [200]: attempt_float('1.2345')
+	Out[200]: 1.2345
+
+	In [201]: attempt_float('something')
+	Out[201]: 'something'
+
+你可能注意到float不仅可以抛出ValueError异常::
+
+	In [202]: float((1, 2))
+	---------------------------------------------------------------------------
+	TypeError Traceback (most recent call last)
+	<ipython-input-202-842079ebb635> in <module>()
+	----> 1 float((1, 2))
+	TypeError: float() argument must be a string or a number, not 'tuple'
+
+您可能只想处理(**suppress**)ValueError，因为TypeError（输入不是字符串或数值）可能表示程序中存在合法(**legitimate**)错误。
+写异常类型在except后面来做这个::
+
+	def attempt_float(x):
+	try:
+		return float(x)
+	except ValueError:
+		return x
+
+然后我们有::
+
+	In [204]: attempt_float((1, 2))
+	---------------------------------------------------------------------------
+	TypeError Traceback (most recent call last)
+	<ipython-input-204-9bdfd730cead> in <module>()
+	----> 1 attempt_float((1, 2))
+	<ipython-input-203-3e06b8379b6b> in attempt_float(x)
+		1 def attempt_float(x):
+		2 try:
+	----> 3 return float(x)
+		4 except ValueError:
+		5 return x
+	TypeError: float() argument must be a string or a number, not 'tuple'
+
+我们可以通过写一个异常类型的元组来捕捉多个异常（要写圆括号）::
+
+	def attempt_float(x):
+	try:
+		return float(x)
+	except (TypeError, ValueError):
+		return x
+
+在一些场合，你可能不想去处理异常，但是你想要一些代码被执行无论try代码块执行成功与否。
+使用finally来做这个::
+
+	f = open(path, 'w')
+	try:
+		write_to_file(f)
+	finally:
+		f.close()
+
+这里文件句柄f总是要关闭。
+类似地，你也可以有代码块仅仅在try:代码块执行成功情况下执行，使用else::
+
+	f = open(path, 'w')
+	try:
+		write_to_file(f)
+	except:
+		print('Failed')
+	else:
+		print('Succeeded')
+	finally:
+		f.close()
+
+~~~~~~~~~~~~~~~~
+IPython中异常
+~~~~~~~~~~~~~~~~
+
+当你通过%运行一个脚本或执行任何语句抛出异常，IPython将默认打印一个完整的调用堆栈追踪(traceback)，其中包含堆栈中每个点位置周围的几行上下文::
+
+	In [10]: %run examples/ipython_bug.py
+	---------------------------------------------------------------------------
+	AssertionError Traceback (most recent call last)
+	/home/wesm/code/pydata-book/examples/ipython_bug.py in <module>()
+		13 throws_an_exception()
+		14
+	---> 15 calling_things()
+	
+	/home/wesm/code/pydata-book/examples/ipython_bug.py in calling_things()
+		11 def calling_things():
+		12 works_fine()
+	---> 13 throws_an_exception()
+		14
+		15 calling_things()
+		
+	/home/wesm/code/pydata-book/examples/ipython_bug.py in throws_an_exception()
+		7 a = 5
+		8 b = 6
+	----> 9 assert(a + b == 10)
+		10
+		11 def calling_things():
+		
+	AssertionError:
+
+自身有额外的内容相较于其它标准Python解释器（不提供附加内容）是一个很大优势。
+你可以使用%xmodoe魔术方法控制显示的内容数量，从Plain（和标准Python解释器一样）到Verbose（其中内联函数参数值等）。你将在在后面章节看到，你也可以在错误发生后进入堆栈(使用%debug或%pdb魔法)交互式分析(**post-mortem**)调试。
