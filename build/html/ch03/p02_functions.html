@@ -86,9 +86,16 @@
 <li class="toctree-l3"><a class="reference internal" href="#id3">返回多个值</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id4">函数是对象</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#lambda">匿名（Lambda）函数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">部分参数应用</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">生成器</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">错误和异常处理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#currying-partical">Currying:部分(<strong>partical</strong>)参数应用</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">生成器</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">生成器表达式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#itertools">itertools模块</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">错误和异常处理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ipython">IPython中异常</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="p03_files_and_the_opreating_system.html">3.3 文件和操作系统</a></li>
@@ -342,15 +349,276 @@ clean_strings函数现在也更具可重用性和通用性(<strong>generic</stro
 </div>
 <div class="section" id="lambda">
 <h2>匿名（Lambda）函数<a class="headerlink" href="#lambda" title="Permalink to this headline">¶</a></h2>
+<p>Python支持所谓的匿名的或叫lambda函数，是写只包含一条语句的函数的方式，语句的结果是函数的返回值。
+使用lambda关键字定义匿名函数，除了“我们正在声明一个匿名函数”外没有其他意思:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">short_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="n">equiv_anon</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>我们通常在本书的剩下部分称这些函数为lambda函数。它们在数据分析方面尤其有用，因为你将看到，在许多情况下数据转换函数使用函数作为参数。
+传递lambda函数通常输入较少（和更清晰），而不是编写完全函数声明，或甚至将lambda函数赋值给局部变量。 例如，考虑这个例子:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">apply_to_list</span><span class="p">(</span><span class="n">some_list</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">some_list</span><span class="p">]</span>
+
+<span class="n">ints</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="n">apply_to_list</span><span class="p">(</span><span class="n">ints</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>你也可以写[x * 2 for x in ints],但是这里我们可以简洁地(<strong>succinctly</strong>)传递一份定制的操作给apply_to_list函数。
+另一个例子，假设你想分类一个字符串容器，通过每个字符串中可区分的字母:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">177</span><span class="p">]:</span> <span class="n">strings</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;card&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;aaaa&#39;</span><span class="p">,</span> <span class="s1">&#39;abab&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>这里我们传递一个lambda函数给list的sort方法:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">178</span><span class="p">]:</span> <span class="n">strings</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">179</span><span class="p">]:</span> <span class="n">strings</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">179</span><span class="p">]:</span> <span class="p">[</span><span class="s1">&#39;aaaa&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;abab&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;card&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>提醒：
+匿名函数被叫做lambda函数的一个原因是，不像用def定义(declared)的函数，函数对象本身没有一个明确的__name__属性。</p>
+</div>
+<div class="section" id="currying-partical">
+<h2>Currying:部分(<strong>partical</strong>)参数应用<a class="headerlink" href="#currying-partical" title="Permalink to this headline">¶</a></h2>
+<p>Currying是计算机科学的行话(以数学家Haskell Curry命名(<strong>named after</strong>))，意思是通过部分参数应用从已存在的函数中得到(<strong>derive</strong>)新函数。
+举例，假设我们有一个不重要的函数，两个数相加:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_numbers</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</pre></div>
+</div>
+<p>使用这个函数，我们得到一个变量的新函数，add_five, 加5到这个参数上:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">add_five</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">add_numbers</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>add_number函数的第二个参数被叫做currying。这儿没有什么有趣的东西，我们实际做的就是定义一个新函数，调用已存在的函数。
+内置functools模型的partial函数可以简化这一过程:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="n">add_five</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">add_numbers</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id5">
-<h2>部分参数应用<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<h2>生成器<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>有一致的方式迭代如list中的objects或文件中的lines等序列，是一种重要的Python特性。
+这是通过(by means of)迭代器协议(iterator protocol)实现的，迭代器协议是使对象可迭代的(iterable)通用(<strong>generic</strong>)方法。 例如，迭代dict会产生dict键:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">180</span><span class="p">]:</span> <span class="n">some_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">181</span><span class="p">]:</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">some_dict</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="n">a</span>
+<span class="n">b</span>
+<span class="n">c</span>
+</pre></div>
+</div>
+<p>当你写for key in some_dict, Python解释器首先会尝试创建some_dict之外的迭代器:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">182</span><span class="p">]:</span> <span class="n">dict_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">some_dict</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">183</span><span class="p">]:</span> <span class="n">dict_iterator</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">183</span><span class="p">]:</span> <span class="o">&lt;</span><span class="n">dict_keyiterator</span> <span class="n">at</span> <span class="mh">0x7fbbd5a9f908</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>当像for循环这样的上下文中被使用到，迭代器是yield到Python解释器中的任何对象。
+许多参数是list或类似list的对象的方法也接受任何迭代器对象作为参数。这包括内建的方法如min、max和sum，以及类型构造函数如list、tuple:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">184</span><span class="p">]:</span> <span class="nb">list</span><span class="p">(</span><span class="n">dict_iterator</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">184</span><span class="p">]:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>生成器是构造迭代器对象的一种简洁方式。正常函数执行和返回单个结果每次，生成器以懒加载方式返回多个结果的一个序列，在返回一个结果后暂停知道下一个结果被请求。
+为创建生成器，在函数中使用yield关键字代替return:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">squares</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Generating squares from 1 to </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">i</span> <span class="o">**</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>当你实际调用生成器时，没有代码被立即执行:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">186</span><span class="p">]:</span> <span class="n">gen</span> <span class="o">=</span> <span class="n">squares</span><span class="p">()</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">187</span><span class="p">]:</span> <span class="n">gen</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">187</span><span class="p">]:</span> <span class="o">&lt;</span><span class="n">generator</span> <span class="nb">object</span> <span class="n">squares</span> <span class="n">at</span> <span class="mh">0x7fbbd5ab4570</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>直到你从生成器中请求元素，它开始执行它的代码:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">188</span><span class="p">]:</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">gen</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="n">Generating</span> <span class="n">squares</span> <span class="kn">from</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span>
+<span class="mi">1</span> <span class="mi">4</span> <span class="mi">9</span> <span class="mi">16</span> <span class="mi">25</span> <span class="mi">36</span> <span class="mi">49</span> <span class="mi">64</span> <span class="mi">81</span> <span class="mi">100</span>
+</pre></div>
 </div>
 <div class="section" id="id6">
-<h2>生成器<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<h3>生成器表达式<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>另一种甚至更简洁的方式产生生成器是使用生成器表达式。
+这种生成器类似于(<strong>analogue</strong>)列表、字典和集合推导。
+创建生成器，括起列表推导使用圆括号(<strong>parentheses</strong>)代替方括号(<strong>breckets</strong>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">189</span><span class="p">]:</span> <span class="n">gen</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">190</span><span class="p">]:</span> <span class="n">gen</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">190</span><span class="p">]:</span> <span class="o">&lt;</span><span class="n">generator</span> <span class="nb">object</span> <span class="o">&lt;</span><span class="n">genexpr</span><span class="o">&gt;</span> <span class="n">at</span> <span class="mh">0x7fbbd5ab29e8</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>这完全与下面更为繁杂的生成器等效:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_make_gen</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">gen</span> <span class="o">=</span> <span class="n">_make_gen</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>在大量场合，生成器表达式可以代替列表推导作为函数参数:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">191</span><span class="p">]:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">191</span><span class="p">]:</span> <span class="mi">328350</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">192</span><span class="p">]:</span> <span class="nb">dict</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">192</span><span class="p">]:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">16</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="itertools">
+<h3>itertools模块<a class="headerlink" href="#itertools" title="Permalink to this headline">¶</a></h3>
+<p>标准库itertools模块为大量通用数据算法而写的生成器集合。
+例如，groupby用任何序列和函数作为参数，通过参数中函数返回值分组序列中连续的(<strong>consecutive</strong>)元素。这里有一个例子:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">193</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">194</span><span class="p">]:</span> <span class="n">first_letter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">195</span><span class="p">]:</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Alan&#39;</span><span class="p">,</span> <span class="s1">&#39;Adam&#39;</span><span class="p">,</span> <span class="s1">&#39;Wes&#39;</span><span class="p">,</span> <span class="s1">&#39;Will&#39;</span><span class="p">,</span> <span class="s1">&#39;Albert&#39;</span><span class="p">,</span> <span class="s1">&#39;Steven&#39;</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">196</span><span class="p">]:</span> <span class="k">for</span> <span class="n">letter</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">first_letter</span><span class="p">):</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="nb">print</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">names</span><span class="p">))</span> <span class="c1"># names is a generator</span>
+<span class="n">A</span> <span class="p">[</span><span class="s1">&#39;Alan&#39;</span><span class="p">,</span> <span class="s1">&#39;Adam&#39;</span><span class="p">]</span>
+<span class="n">W</span> <span class="p">[</span><span class="s1">&#39;Wes&#39;</span><span class="p">,</span> <span class="s1">&#39;Will&#39;</span><span class="p">]</span>
+<span class="n">A</span> <span class="p">[</span><span class="s1">&#39;Albert&#39;</span><span class="p">]</span>
+<span class="n">S</span> <span class="p">[</span><span class="s1">&#39;Steven&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>表3-2是其它itertools函数清单，这些函数时常让我觉得很有用。
+更多关于这些有用的内置实用模块，你要去查看Python官方的文档。</p>
+<a class="reference internal image-reference" href="../_images/Table_3-2_Some_useful_itertools_functions.png"><img alt="../_images/Table_3-2_Some_useful_itertools_functions.png" src="../_images/Table_3-2_Some_useful_itertools_functions.png" style="width: 800px;" /></a>
+</div>
 </div>
 <div class="section" id="id7">
 <h2>错误和异常处理<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>仔细处理Python错误或异常时构建健壮程序的重要部分。
+在数据分析应用中，许多函数仅在特定输入下起作用。
+举一个例子，Python的float函数能够转换字符串为浮点数，但不恰当的输入会执行失败产生ValueError:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">197</span><span class="p">]:</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;1.2345&#39;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">197</span><span class="p">]:</span> <span class="mf">1.2345</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">198</span><span class="p">]:</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;something&#39;</span><span class="p">)</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span> <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">198</span><span class="o">-</span><span class="mi">439904410854</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;something&#39;</span><span class="p">)</span>
+<span class="ne">ValueError</span><span class="p">:</span> <span class="n">could</span> <span class="ow">not</span> <span class="n">convert</span> <span class="n">string</span> <span class="n">to</span> <span class="nb">float</span><span class="p">:</span> <span class="s1">&#39;something&#39;</span>
+</pre></div>
+</div>
+<p>假定我们想要一个优雅版本的float函数，执行失败返回输入参数。
+我们可以通过写一个函数在try/except块围住float调用来做这件事:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">attempt_float</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>在except中的代码仅在float(x)抛出一个异常情况下执行:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">200</span><span class="p">]:</span> <span class="n">attempt_float</span><span class="p">(</span><span class="s1">&#39;1.2345&#39;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">200</span><span class="p">]:</span> <span class="mf">1.2345</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">201</span><span class="p">]:</span> <span class="n">attempt_float</span><span class="p">(</span><span class="s1">&#39;something&#39;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">201</span><span class="p">]:</span> <span class="s1">&#39;something&#39;</span>
+</pre></div>
+</div>
+<p>你可能注意到float不仅可以抛出ValueError异常:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">202</span><span class="p">]:</span> <span class="nb">float</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span> <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">202</span><span class="o">-</span><span class="mi">842079</span><span class="n">ebb635</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="nb">float</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="nb">float</span><span class="p">()</span> <span class="n">argument</span> <span class="n">must</span> <span class="n">be</span> <span class="n">a</span> <span class="n">string</span> <span class="ow">or</span> <span class="n">a</span> <span class="n">number</span><span class="p">,</span> <span class="ow">not</span> <span class="s1">&#39;tuple&#39;</span>
+</pre></div>
+</div>
+<p>您可能只想处理(<strong>suppress</strong>)ValueError，因为TypeError（输入不是字符串或数值）可能表示程序中存在合法(<strong>legitimate</strong>)错误。
+写异常类型在except后面来做这个:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">attempt_float</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>然后我们有:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">204</span><span class="p">]:</span> <span class="n">attempt_float</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span> <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">204</span><span class="o">-</span><span class="mi">9</span><span class="n">bdfd730cead</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">attempt_float</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">203</span><span class="o">-</span><span class="mf">3e06</span><span class="n">b8379b6b</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="n">attempt_float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="mi">1</span> <span class="k">def</span> <span class="nf">attempt_float</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="mi">2</span> <span class="k">try</span><span class="p">:</span>
+<span class="o">----&gt;</span> <span class="mi">3</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="mi">4</span> <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="mi">5</span> <span class="k">return</span> <span class="n">x</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="nb">float</span><span class="p">()</span> <span class="n">argument</span> <span class="n">must</span> <span class="n">be</span> <span class="n">a</span> <span class="n">string</span> <span class="ow">or</span> <span class="n">a</span> <span class="n">number</span><span class="p">,</span> <span class="ow">not</span> <span class="s1">&#39;tuple&#39;</span>
+</pre></div>
+</div>
+<p>我们可以通过写一个异常类型的元组来捕捉多个异常（要写圆括号）:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">attempt_float</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>在一些场合，你可能不想去处理异常，但是你想要一些代码被执行无论try代码块执行成功与否。
+使用finally来做这个:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+        <span class="n">write_to_file</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>这里文件句柄f总是要关闭。
+类似地，你也可以有代码块仅仅在try:代码块执行成功情况下执行，使用else:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+        <span class="n">write_to_file</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Failed&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Succeeded&#39;</span><span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="ipython">
+<h3>IPython中异常<a class="headerlink" href="#ipython" title="Permalink to this headline">¶</a></h3>
+<p>当你通过%运行一个脚本或执行任何语句抛出异常，IPython将默认打印一个完整的调用堆栈追踪(traceback)，其中包含堆栈中每个点位置周围的几行上下文:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="o">%</span><span class="n">run</span> <span class="n">examples</span><span class="o">/</span><span class="n">ipython_bug</span><span class="o">.</span><span class="n">py</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">AssertionError</span> <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">wesm</span><span class="o">/</span><span class="n">code</span><span class="o">/</span><span class="n">pydata</span><span class="o">-</span><span class="n">book</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">ipython_bug</span><span class="o">.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+        <span class="mi">13</span> <span class="n">throws_an_exception</span><span class="p">()</span>
+        <span class="mi">14</span>
+<span class="o">---&gt;</span> <span class="mi">15</span> <span class="n">calling_things</span><span class="p">()</span>
+
+<span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">wesm</span><span class="o">/</span><span class="n">code</span><span class="o">/</span><span class="n">pydata</span><span class="o">-</span><span class="n">book</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">ipython_bug</span><span class="o">.</span><span class="n">py</span> <span class="ow">in</span> <span class="n">calling_things</span><span class="p">()</span>
+        <span class="mi">11</span> <span class="k">def</span> <span class="nf">calling_things</span><span class="p">():</span>
+        <span class="mi">12</span> <span class="n">works_fine</span><span class="p">()</span>
+<span class="o">---&gt;</span> <span class="mi">13</span> <span class="n">throws_an_exception</span><span class="p">()</span>
+        <span class="mi">14</span>
+        <span class="mi">15</span> <span class="n">calling_things</span><span class="p">()</span>
+
+<span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">wesm</span><span class="o">/</span><span class="n">code</span><span class="o">/</span><span class="n">pydata</span><span class="o">-</span><span class="n">book</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">ipython_bug</span><span class="o">.</span><span class="n">py</span> <span class="ow">in</span> <span class="n">throws_an_exception</span><span class="p">()</span>
+        <span class="mi">7</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="mi">8</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="o">----&gt;</span> <span class="mi">9</span> <span class="k">assert</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="mi">10</span>
+        <span class="mi">11</span> <span class="k">def</span> <span class="nf">calling_things</span><span class="p">():</span>
+
+<span class="ne">AssertionError</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>自身有额外的内容相较于其它标准Python解释器（不提供附加内容）是一个很大优势。
+你可以使用%xmodoe魔术方法控制显示的内容数量，从Plain（和标准Python解释器一样）到Verbose（其中内联函数参数值等）。你将在在后面章节看到，你也可以在错误发生后进入堆栈(使用%debug或%pdb魔法)交互式分析(<strong>post-mortem</strong>)调试。</p>
+</div>
 </div>
 </div>
 

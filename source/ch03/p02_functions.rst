@@ -194,35 +194,37 @@ clean_strings函数现在也更具可重用性和通用性(**generic**)。
 Python支持所谓的匿名的或叫lambda函数，是写只包含一条语句的函数的方式，语句的结果是函数的返回值。
 使用lambda关键字定义匿名函数，除了“我们正在声明一个匿名函数”外没有其他意思::
 
-def short_function(x):
-return x * 2
-equiv_anon = lambda x: x * 2
+	def short_function(x):
+		return x * 2
+	equiv_anon = lambda x: x * 2
 
 我们通常在本书的剩下部分称这些函数为lambda函数。它们在数据分析方面尤其有用，因为你将看到，在许多情况下数据转换函数使用函数作为参数。
 传递lambda函数通常输入较少（和更清晰），而不是编写完全函数声明，或甚至将lambda函数赋值给局部变量。 例如，考虑这个例子::
 
-def apply_to_list(some_list, f):
-return [f(x) for x in some_list]
-ints = [4, 0, 1, 5, 6]
-apply_to_list(ints, lambda x: x * 2)
+	def apply_to_list(some_list, f):
+		return [f(x) for x in some_list]
+	
+	ints = [4, 0, 1, 5, 6]
+	apply_to_list(ints, lambda x: x * 2)
 
 你也可以写[x * 2 for x in ints],但是这里我们可以简洁地(**succinctly**)传递一份定制的操作给apply_to_list函数。
 另一个例子，假设你想分类一个字符串容器，通过每个字符串中可区分的字母::
 
-In [177]: strings = ['foo', 'card', 'bar', 'aaaa', 'abab']
+	In [177]: strings = ['foo', 'card', 'bar', 'aaaa', 'abab']
 
 这里我们传递一个lambda函数给list的sort方法::
 
-In [178]: strings.sort(key=lambda x: len(set(list(x))))
-In [179]: strings
-Out[179]: ['aaaa', 'foo', 'abab', 'bar', 'card']
+	In [178]: strings.sort(key=lambda x: len(set(list(x))))
+	
+	In [179]: strings
+	Out[179]: ['aaaa', 'foo', 'abab', 'bar', 'card']
 
 提醒：
 匿名函数被叫做lambda函数的一个原因是，不像用def定义(declared)的函数，函数对象本身没有一个明确的__name__属性。
 
---------------------------------
+-------------------------------------
 Currying:部分(**partical**)参数应用
---------------------------------
+-------------------------------------
 
 Currying是计算机科学的行话(以数学家Haskell Curry命名(**named after**))，意思是通过部分参数应用从已存在的函数中得到(**derive**)新函数。
 举例，假设我们有一个不重要的函数，两个数相加::
