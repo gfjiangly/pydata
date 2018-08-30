@@ -83,12 +83,13 @@
 <li class="toctree-l2"><a class="reference internal" href="p01_data_structures_and_sequences.html">3.1 数据结构和序列</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p02_functions.html">3.2 函数</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">3.3 文件和操作系统</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#unicode">带文件的字节和Unicode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unicode">文件的字节和Unicode</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="p04_conclusion.html">3.4 总结</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a></li>
 </ul>
 
             
@@ -157,8 +158,193 @@
             
   <div class="section" id="id1">
 <h1>3.3 文件和操作系统<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>这本书大多数地方使用高层次工具如pandas.readcsv来从磁盘读数据文件到Python数据结构。
+尽管如此，理解基本的关于Python中文件如何工作是很重要的。
+幸运的是这很简单，这也是为什么Python在文本和文件处理中如此受欢迎的原因之一。</p>
+<p>打开文件读写，使用内置的open函数，用相对路径或绝对路径:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">207</span><span class="p">]:</span> <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;examples/segismundo.txt&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">208</span><span class="p">]:</span> <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>默认文件以只读模式打开。
+然后我们就可以像一个列表一样对待文件句柄，像下面这样迭代文本行:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>来自文件的文本行以EOL标志完整性，所以你会经常看到在一个文件中得到没有EOL文本行的代码，像这样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">209</span><span class="p">]:</span> <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">210</span><span class="p">]:</span> <span class="n">lines</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">210</span><span class="p">]:</span>
+<span class="p">[</span><span class="s1">&#39;Sueña el rico en su riqueza,&#39;</span><span class="p">,</span>
+<span class="s1">&#39;que más cuidados le ofrece;&#39;</span><span class="p">,</span>
+<span class="s1">&#39;&#39;</span><span class="p">,</span>
+<span class="s1">&#39;sueña el pobre que padece&#39;</span><span class="p">,</span>
+<span class="s1">&#39;su miseria y su pobreza;&#39;</span><span class="p">,</span>
+<span class="s1">&#39;&#39;</span><span class="p">,</span>
+<span class="s1">&#39;sueña el que a medrar empieza,&#39;</span><span class="p">,</span>
+<span class="s1">&#39;sueña el que afana y pretende,&#39;</span><span class="p">,</span>
+<span class="s1">&#39;sueña el que agravia y ofende,&#39;</span><span class="p">,</span>
+<span class="s1">&#39;&#39;</span><span class="p">,</span>
+<span class="s1">&#39;y en el mundo, en conclusión,&#39;</span><span class="p">,</span>
+<span class="s1">&#39;todos sueñan lo que son,&#39;</span><span class="p">,</span>
+<span class="s1">&#39;aunque ninguno lo entiende.&#39;</span><span class="p">,</span>
+<span class="s1">&#39;&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>当你使用open创建文件时，完成后显式关闭文件是重要的。关闭文件可以释放它的资源返还给操作系统:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">211</span><span class="p">]:</span> <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>一种清理打开文件的简单方式是使用with语句:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">212</span><span class="p">]:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">f</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>在离开with代码块时将自动关闭文件f。</p>
+<p>如果我们敲f = open(path, ‘w’), 一个新文件在examples/segismundo.txt将被创建（小心！）。重写在这个地方的任何文件。也有’x’文件模式，创建一个可写文件但是如果文件已存在将创建失败。
+见表3-3 所有合法读写模式清单。</p>
+<p>对于可读文件，一些尝试用的方法是read、seek和tell。
+read返回文件中一定数量的字符。
+什么构成”字符”由文件的编码（例如，UTF-8）确定，如果文件以二进制模式打开则只是原始字节:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">213</span><span class="p">]:</span> <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">214</span><span class="p">]:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">214</span><span class="p">]:</span> <span class="s1">&#39;Sueña el r&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">215</span><span class="p">]:</span> <span class="n">f2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="c1"># Binary mode</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">216</span><span class="p">]:</span> <span class="n">f2</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">216</span><span class="p">]:</span> <span class="sa">b</span><span class="s1">&#39;Sue</span><span class="se">\xc3\xb1</span><span class="s1">a el &#39;</span>
+</pre></div>
+</div>
+<p>read方法使文件句柄的位置按读取的字节数递增(<strong>advance</strong>, 有前进之意)。
+tell告诉我们当前位置:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">217</span><span class="p">]:</span> <span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">217</span><span class="p">]:</span> <span class="mi">11</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">218</span><span class="p">]:</span> <span class="n">f2</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">218</span><span class="p">]:</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<p>即使我们从文件中读取了10个字符，它的位置为11因为使用默认编码许多字节解码10个字符。你可以查一下sys模块中的默认编码:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">219</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">220</span><span class="p">]:</span> <span class="n">sys</span><span class="o">.</span><span class="n">getdefaultencoding</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">220</span><span class="p">]:</span> <span class="s1">&#39;utf-8&#39;</span>
+</pre></div>
+</div>
+<p>seek将文件位置更改为文件中指定的字节数:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">221</span><span class="p">]:</span> <span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">221</span><span class="p">]:</span> <span class="mi">3</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">222</span><span class="p">]:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">222</span><span class="p">]:</span> <span class="s1">&#39;ñ&#39;</span>
+</pre></div>
+</div>
+<p>最后，记得关闭文件:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">223</span><span class="p">]:</span> <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">224</span><span class="p">]:</span> <span class="n">f2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/Table_3-3_Python_file_modes.png"><img alt="../_images/Table_3-3_Python_file_modes.png" src="../_images/Table_3-3_Python_file_modes.png" style="width: 800px;" /></a>
+<p>写文本到文件中可以使用文件的write或writelines方法。举例，我们可以创建无空行版本的prof_mod.py，像这样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">225</span><span class="p">]:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tmp.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="n">handle</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">226</span><span class="p">]:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tmp.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">227</span><span class="p">]:</span> <span class="n">lines</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">227</span><span class="p">]:</span>
+<span class="p">[</span><span class="s1">&#39;Sueña el rico en su riqueza,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;que más cuidados le ofrece;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;sueña el pobre que padece</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;su miseria y su pobreza;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;sueña el que a medrar empieza,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;sueña el que afana y pretende,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;sueña el que agravia y ofende,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;y en el mundo, en conclusión,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;todos sueñan lo que son,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="s1">&#39;aunque ninguno lo entiende.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>表3-4有许多最常用的文件方法。</p>
+<a class="reference internal image-reference" href="../_images/Table_3-4_Important_Python_file_methods_or_attributes_1.png"><img alt="../_images/Table_3-4_Important_Python_file_methods_or_attributes_1.png" src="../_images/Table_3-4_Important_Python_file_methods_or_attributes_1.png" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="../_images/Table_3-4_Important_Python_file_methods_or_attributes_2.png"><img alt="../_images/Table_3-4_Important_Python_file_methods_or_attributes_2.png" src="../_images/Table_3-4_Important_Python_file_methods_or_attributes_2.png" style="width: 800px;" /></a>
 <div class="section" id="unicode">
-<h2>带文件的字节和Unicode<a class="headerlink" href="#unicode" title="Permalink to this headline">¶</a></h2>
+<h2>文件的字节和Unicode<a class="headerlink" href="#unicode" title="Permalink to this headline">¶</a></h2>
+<p>Python文件的默认行为是文本模式（无论读还是写），意味着你往往要和Python字符串（如Unicode）打交道。
+这是相对于追加b到文件模式中得到的二进制模式。
+让我们看看先前部分中的文件（包含UTF-8编码的非ASCII字符）:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">230</span><span class="p">]:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="n">chars</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">231</span><span class="p">]:</span> <span class="n">chars</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">231</span><span class="p">]:</span> <span class="s1">&#39;Sueña el r&#39;</span>
+</pre></div>
+</div>
+<p>UTF-8是变长Unicode编码，所以当我从文件请求一些数量的字符时，Python从文件读足够的字节来解码这么多字符。如果我们用’rb’模式打开文件，read请求确定数量的字节:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">232</span><span class="p">]:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">233</span><span class="p">]:</span> <span class="n">data</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">233</span><span class="p">]:</span> <span class="sa">b</span><span class="s1">&#39;Sue</span><span class="se">\xc3\xb1</span><span class="s1">a el &#39;</span>
+</pre></div>
+</div>
+<p>取决于文本编码，你可以解析字节到字符串对象，但仅仅是在每个Unicode编码的字符被完整表达的前提下:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">234</span><span class="p">]:</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">234</span><span class="p">]:</span> <span class="s1">&#39;Sueña el &#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">235</span><span class="p">]:</span> <span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">UnicodeDecodeError</span> <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">235</span><span class="o">-</span><span class="mf">300e0</span><span class="n">af10bb7</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+<span class="ne">UnicodeDecodeError</span><span class="p">:</span> <span class="s1">&#39;utf-8&#39;</span> <span class="n">codec</span> <span class="n">can</span><span class="s1">&#39;t decode byte 0xc3 in position 3: unexpecte</span>
+<span class="n">d</span> <span class="n">end</span> <span class="n">of</span> <span class="n">data</span>
+</pre></div>
+</div>
+<p>文本模式，结合open编码选项，提供从一种Unicode编码到另一种的便利方式:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">236</span><span class="p">]:</span> <span class="n">sink_path</span> <span class="o">=</span> <span class="s1">&#39;sink.txt&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">237</span><span class="p">]:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">source</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sink_path</span><span class="p">,</span> <span class="s1">&#39;xt&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;iso-8859-1&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sink</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>                  <span class="n">sink</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">238</span><span class="p">]:</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sink_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;iso-8859-1&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="o">.....</span><span class="p">:</span>          <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">Sueña</span> <span class="n">el</span> <span class="n">r</span>
+</pre></div>
+</div>
+<p>当打开文件不是二进制模式时，小心使用seek。
+如果文件位置落在Unicode编码的字符中间字节，随后的(<strong>subsequent</strong>)读将产生一个错误:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">240</span><span class="p">]:</span> <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">241</span><span class="p">]:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">241</span><span class="p">]:</span> <span class="s1">&#39;Sueña&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">242</span><span class="p">]:</span> <span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">242</span><span class="p">]:</span> <span class="mi">4</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">243</span><span class="p">]:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">UnicodeDecodeError</span> <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">243</span><span class="o">-</span><span class="mf">7841103e33</span><span class="n">f5</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">/</span><span class="n">miniconda</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">book</span><span class="o">-</span><span class="n">env</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">codecs</span><span class="o">.</span><span class="n">py</span> <span class="ow">in</span> <span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">final</span><span class="p">)</span>
+        <span class="mi">319</span> <span class="c1"># decode input (taking the buffer into account)</span>
+        <span class="mi">320</span> <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">+</span> <span class="nb">input</span>
+<span class="o">--&gt;</span> <span class="mi">321</span> <span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">consumed</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer_decode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">final</span>
+<span class="p">)</span>
+        <span class="mi">322</span> <span class="c1"># keep undecoded input until the next call</span>
+        <span class="mi">323</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">consumed</span><span class="p">:]</span>
+<span class="ne">UnicodeDecodeError</span><span class="p">:</span> <span class="s1">&#39;utf-8&#39;</span> <span class="n">codec</span> <span class="n">can</span><span class="s1">&#39;t decode byte 0xb1 in position 0: invalid s</span>
+<span class="n">tart</span> <span class="n">byte</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">244</span><span class="p">]:</span> <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>如果你发现自己经常做关于非ASCII文本数据的分析，掌握Python的Unicode功能是有价值的。更多信息见Python官方文档。</p>
 </div>
 </div>
 

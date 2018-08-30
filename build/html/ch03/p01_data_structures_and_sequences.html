@@ -81,31 +81,35 @@
               <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../chapters/p03_build-in_data_structure_function_and_files.html">第三章：内建数据结构，函数和文件</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">3.1 数据结构和序列</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">元组</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">列表</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id4">添加和移除元素</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id5">连接和组合列表</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id6">排序</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#binary-search">二分搜索(Binary search)和维护排序列表</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id7">切片</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">元组</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">解包元组</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">元组方法</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">内置序列函数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">列表</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">添加和移除元素</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">连接和组合列表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">排序</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#binary-search">二分搜索(Binary search)和维护排序列表</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">切片</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">内置序列函数</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#enumerate">enumerate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sorted">sorted</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#zip">zip</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#reversed">reversed</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">字典</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id10">从序列创建字典</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id11">默认值</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id12">合法的字典键类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">字典</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">从序列创建字典</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">默认值</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">合法的字典键类型</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">集合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">集合</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#comprehensions">列表、字典和集合推导(<strong>comprehensions</strong>)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id14">嵌套列表推导</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">嵌套列表推导</a></li>
 </ul>
 </li>
 </ul>
@@ -201,9 +205,137 @@
 <span class="go">((4, 5, 6), (7, 8))</span>
 </pre></div>
 </div>
+<p>您可以通过调用tuple将任何序列或迭代器转换为元组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="nb">tuple</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="n">tup</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">tup</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
+<p>和大多数其它序列类型一样，元素可以使用方括号[]访问。
+和C/C++，Java等许多其它语言相同，Python序列索引从0开始:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="s1">&#39;s&#39;</span>
+</pre></div>
+</div>
+<p>虽然存储在元组中的对象本身可能是可变的，但是一旦创建了元组，就无法修改每个位置(<strong>slot</strong>)中存储的对象:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="n">tup</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="kc">True</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span> <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">c7308343b841</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="s1">&#39;tuple&#39;</span> <span class="nb">object</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">support</span> <span class="n">item</span> <span class="n">assignment</span>
+</pre></div>
+</div>
+<p>如果一个元组中对象是可变的，如list，你可以原位修改它们:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">12</span><span class="p">]:</span> <span class="n">tup</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">12</span><span class="p">]:</span> <span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>你可以使用+连接元组产生更长的元组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">13</span><span class="p">]:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">13</span><span class="p">]:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>用整数乘以元组，和list一样，有连接多个相同元组的效果:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">14</span><span class="p">]:</span> <span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">14</span><span class="p">]:</span> <span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>注意对象本身没有被复制，仅仅引用了它们。</p>
 <div class="section" id="id3">
-<h2>列表<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h3>解包元组<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>如果你尝试分配一个类似元组的变量表达式，Python会尝试解包等号右侧的值:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">15</span><span class="p">]:</span> <span class="n">tup</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">16</span><span class="p">]:</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">tup</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">17</span><span class="p">]:</span> <span class="n">b</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">17</span><span class="p">]:</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>即使嵌套有元组的序列也可以被解包:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">18</span><span class="p">]:</span> <span class="n">tup</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">19</span><span class="p">]:</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">=</span> <span class="n">tup</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">20</span><span class="p">]:</span> <span class="n">d</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">20</span><span class="p">]:</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p>使用这个功能可以很容易交换两个变量名字，在许多其它语言中任务可能像这样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">b</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">tmp</span>
+</pre></div>
+</div>
+<p>但是，在Python中，交换可以像这样做:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">21</span><span class="p">]:</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">22</span><span class="p">]:</span> <span class="n">a</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">22</span><span class="p">]:</span> <span class="mi">1</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">23</span><span class="p">]:</span> <span class="n">b</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">23</span><span class="p">]:</span> <span class="mi">2</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">24</span><span class="p">]:</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">25</span><span class="p">]:</span> <span class="n">a</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">25</span><span class="p">]:</span> <span class="mi">2</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">26</span><span class="p">]:</span> <span class="n">b</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">26</span><span class="p">]:</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>一种常用的变量解包使用是迭代元组或列表序列:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">27</span><span class="p">]:</span> <span class="n">seq</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">)]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">28</span><span class="p">]:</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+<span class="o">....</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a=</span><span class="si">{0}</span><span class="s1">, b=</span><span class="si">{1}</span><span class="s1">, c=</span><span class="si">{2}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+<span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span>
+<span class="n">a</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">6</span>
+<span class="n">a</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">9</span>
+</pre></div>
+</div>
+<p>另一种常见用法是从函数返回多个值。
+我将在稍后详细介绍这一点(I’ll cover this in more detail later)。</p>
+<p>Python语言最近获得一些先进的元组解包以帮助某些情景下我们可能想取出元组开头的部分元素。
+这使用特殊语法*rest，它也用于函数签名捕获任意(<strong>arbitrarily</strong>)长的位置参数列表:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">29</span><span class="p">]:</span> <span class="n">values</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">30</span><span class="p">]:</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">values</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">31</span><span class="p">]:</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">31</span><span class="p">]:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">32</span><span class="p">]:</span> <span class="n">rest</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">32</span><span class="p">]:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>rest位有时是一些我们想要丢弃的东西；rest名字没有什么特别的。
+作为一种便利，大多数Python程序员对不想要的变量使用占位符(_):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">33</span><span class="p">]:</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">values</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>元组方法<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>由于元组的大小和内容无法修改，因此实例的方法很少。 一个特别有用的（在列表中也可用）是count，它计算一个值的出现次数:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">34</span><span class="p">]:</span> <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">35</span><span class="p">]:</span> <span class="n">a</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">35</span><span class="p">]:</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>列表<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>与元组对比，列表是可变长度的，它们的内容可以原位修改。
 你可以使用方括号[]或使用list类型函数：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span>
@@ -225,21 +357,21 @@
 <span class="n">Out</span><span class="p">[</span><span class="mi">44</span><span class="p">]:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="section" id="id4">
-<h3>添加和移除元素<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>添加和移除元素<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>使用append方法可以追加元素到列表末端</p>
 <p>使用insert方法可以在列表的特定位置插入一个元素</p>
 <p>插入索引必须在0到列表长度之间，两端值也都包括(inclusive)。</p>
 <p>注意：插入比追加计算昂贵，因为涉及的子列必须在内部移动以为新元素腾出位置。
 如果你需要在一个序列的开头和结尾处插入元素，为此，你可以研究collection.deque，一个双端列队。</p>
 </div>
-<div class="section" id="id5">
-<h3>连接和组合列表<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>连接和组合列表<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>与元组相似，把两个列表加在一起使用+连接它们：</p>
 <p>如果你已经定义了一个list，你可以使用extend方法追加多个元素到list:</p>
 </div>
-<div class="section" id="id6">
-<h3>排序<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>排序<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>你可以通过调用list的sort方法原位(in-plance)排序它（没有创建一个新list）：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">61</span><span class="p">]:</span> <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 
@@ -287,8 +419,8 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 <p>注意：bisect模块函数并不检查list是否已经排好序，因为检查的计算成本太高。
 因此，在一个未排好序的list上使用它们的操作可以成功不报错，但是可能得到的结果并不正确。</p>
 </div>
-<div class="section" id="id7">
-<h3>切片<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>切片<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>你可以通过切片记号(notation)选择大多数序列类型对象的部分，由start:stop基本形式组成传递给索引操作[]：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">73</span><span class="p">]:</span> <span class="n">seq</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">In</span> <span class="p">[</span><span class="mi">74</span><span class="p">]:</span> <span class="n">seq</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
@@ -334,8 +466,8 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 <img alt="../_images/Figure_3-1_Illustration_of_Python_slicing_conventions.bmp" src="../_images/Figure_3-1_Illustration_of_Python_slicing_conventions.bmp" />
 </div>
 </div>
-<div class="section" id="id8">
-<h2>内置序列函数<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h2>内置序列函数<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <p>Python有几个(a handful of)有用的序列函数，您应该熟悉并随时使用它们。</p>
 <div class="section" id="enumerate">
 <h3>enumerate<a class="headerlink" href="#enumerate" title="Permalink to this headline">¶</a></h3>
@@ -429,8 +561,8 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 <p>记住，reversed是一个生成器（稍后将对此进行更详细的讨论），所以在具体化之前它不会创建一个反向序列（例如用list或for循环）。</p>
 </div>
 </div>
-<div class="section" id="id9">
-<h2>字典<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h2>字典<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <p>dict可能是python中最重要的内置数据结构。
 一个更常见的名字是哈希表或关联数组。
 它是一个可变大小的键-值对容器，键和值都是python的对象。创建字典的一种方式是使用花括号(curly braces)，并用冒号分隔键值:</p>
@@ -512,8 +644,8 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 </pre></div>
 </div>
 <p>update方法原位修改字典，所以任何被传递去更新的数据，已存在的键它原来的值将丢弃。</p>
-<div class="section" id="id10">
-<h3>从序列创建字典<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>从序列创建字典<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>经常有想把两个序列逐元素配对成字典的情况。
 第一次尝试，你可能写的代码像下面这样:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mapping</span> <span class="o">=</span> <span class="p">{}</span>
@@ -530,8 +662,8 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 </div>
 <p>后面我们将讨论dict comprehensions，另一种构建字典的优雅方式。</p>
 </div>
-<div class="section" id="id11">
-<h3>默认值<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>默认值<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>下面逻辑很常见:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">some_dict</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">some_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
@@ -575,8 +707,8 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 </pre></div>
 </div>
 </div>
-<div class="section" id="id12">
-<h3>合法的字典键类型<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>合法的字典键类型<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <p>尽管字典值可以是任何字典类型，但键通常是不可变对象，如标量(<strong>scalar</strong>)类型(int, float, string)、元组（所有在元组中的对象也要是不可变的）。
 技术术语叫可哈希能力(hashability)。
 你可以用hash函数检查一个对象是否是可哈希的:</p>
@@ -605,8 +737,8 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 </div>
 </div>
 </div>
-<div class="section" id="id13">
-<h2>集合<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h2>集合<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <p>set是一个无序且元素唯一的容器。
 你可以把它看成仅仅有键没有值的字典。
 集合可以使用两种方式创建：通过set函数或花括号{}:</p>
@@ -736,8 +868,8 @@ bisect.bisect查找一个元素应该被插入的位置，插入后还是排好�
 <span class="n">Out</span><span class="p">[</span><span class="mi">160</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;as&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;bat&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;car&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;dove&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
 </pre></div>
 </div>
-<div class="section" id="id14">
-<h3>嵌套列表推导<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>嵌套列表推导<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p>假定我们有一个包含一些英语和西班牙名字的列表的列表:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">161</span><span class="p">]:</span> <span class="n">all_data</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;Emily&#39;</span><span class="p">,</span> <span class="s1">&#39;Michael&#39;</span><span class="p">,</span> <span class="s1">&#39;Mary&#39;</span><span class="p">,</span> <span class="s1">&#39;Steven&#39;</span><span class="p">],</span>
 <span class="o">.....</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;Maria&#39;</span><span class="p">,</span> <span class="s1">&#39;Juan&#39;</span><span class="p">,</span> <span class="s1">&#39;Javier&#39;</span><span class="p">,</span> <span class="s1">&#39;Natalia&#39;</span><span class="p">,</span> <span class="s1">&#39;Pilar&#39;</span><span class="p">]]</span>
