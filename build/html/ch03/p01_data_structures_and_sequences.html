@@ -192,17 +192,18 @@
 <div class="section" id="id2">
 <h2>元组<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>一个元组是一个固定长度，不可变序列的python对象。
-最简单的方式去创建一个元组是用一个逗号分隔序列的值：</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tup</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tup</span>
-<span class="go">(4, 5, 6)</span>
+最简单的方式去创建一个元组是用一个逗号分隔序列的值:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">tup</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">tup</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>当你在一个复杂的表达式中定义一个元组时，它是十分有必要用一个圆括号将值围起来，如在这个例子中，在一个元组中创建元组：</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nested_tup</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<p>当你在一个复杂的表达式中定义一个元组时，它是十分有必要用一个圆括号将值围起来，如在这个例子中，在一个元组中创建元组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="n">nested_tup</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">nested_tup</span>
-<span class="go">((4, 5, 6), (7, 8))</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="n">nested_tup</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>您可以通过调用tuple将任何序列或迭代器转换为元组:</p>
@@ -292,7 +293,7 @@
 <span class="n">Out</span><span class="p">[</span><span class="mi">26</span><span class="p">]:</span> <span class="mi">1</span>
 </pre></div>
 </div>
-<p>一种常用的变量解包使用是迭代元组或列表序列:</p>
+<p>一种常用的变量解包用法是迭代元组或列表序列:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">27</span><span class="p">]:</span> <span class="n">seq</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">)]</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">28</span><span class="p">]:</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
@@ -337,19 +338,17 @@
 <div class="section" id="id5">
 <h2>列表<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>与元组对比，列表是可变长度的，它们的内容可以原位修改。
-你可以使用方括号[]或使用list类型函数：</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tup</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tup</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b_list</span>
-<span class="go">[&#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;peekaboo&#39;</span>
-<span class="go">    &gt;&gt;&gt; b_list</span>
-<span class="go">    [&#39;foo&#39;, &#39;peekaboo&#39;, &#39;baz&#39;]</span>
-</pre></div>
-</div>
+你可以使用方括号[]或使用list类型函数:</p>
+<p>In [36]: a_list = [2, 3, 7, None]</p>
+<p>In [37]: tup = (‘foo’, ‘bar’, ‘baz’)</p>
+<p>In [38]: b_list = list(tup)</p>
+<p>In [39]: b_list
+Out[39]: [‘foo’, ‘bar’, ‘baz’]</p>
+<p>In [40]: b_list[1] = ‘peekaboo’</p>
+<p>In [41]: b_list
+Out[41]: [‘foo’, ‘peekaboo’, ‘baz’]</p>
 <p>列表和元组在语义上(semantically)是相似的（虽然元组不能被修改），在许多函数中可被替换(interchangeably)使用。</p>
-<p>列表函数经常被作为一种具体化一个迭代器或生成表达式方式使用在数据处理：</p>
+<p>列表函数经常被作为一种具化迭代器或生成表达式方式在数据处理中使用：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">42</span><span class="p">]:</span> <span class="n">gen</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">In</span> <span class="p">[</span><span class="mi">43</span><span class="p">]:</span> <span class="n">gen</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">43</span><span class="p">]:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
@@ -411,8 +410,27 @@
 </div>
 <div class="section" id="id7">
 <h3>连接和组合列表<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
-<p>与元组相似，把两个列表加在一起使用+连接它们：</p>
+<p>与元组相似，把两个列表加在一起使用+连接它们:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">57</span><span class="p">]:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">57</span><span class="p">]:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+</pre></div>
+</div>
 <p>如果你已经定义了一个list，你可以使用extend方法追加多个元素到list:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">58</span><span class="p">]:</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">59</span><span class="p">]:</span> <span class="n">x</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">60</span><span class="p">]:</span> <span class="n">x</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">60</span><span class="p">]:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>注意通过加号连接列表是一个相对昂贵的操作，因为一个新列表必须被创建并且对象要被复制过去。
+使用extent追加元素到一个已存在的列表中，尤其当你构建一个大的list时，通常更好。因此:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">everything</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">list_of_lists</span><span class="p">:</span>
+        <span class="n">everything</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id8">
 <h3>排序<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
