@@ -27,9 +27,7 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4.2 通用函数：快速逐元素(element-wise)数组函数" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html" />
-    <link rel="prev" title="第四章：numpy基础：数组和向量化计算" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -78,23 +76,9 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../chapters/p03_build-in_data_structure_function_and_files.html">第三章：内建数据结构，函数和文件</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">4.1 NumPy ndarray：一个多维数组对象</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">NumPy ndarray，一个多维数组对象</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ndarray">创建ndarray</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html">4.2 通用函数：快速逐元素(element-wise)数组函数</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p03_Array-Oriented_Programming_with_Arrays.html">4.3 使用数组的面向数组编程</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p04_File_Input_and_Output_with_Arrays.html">4.4 带数组的文件输入输出</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p05_Linear_Algebra.html">4.5 线性代数</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p06_Pseudorandom_Number_Generation.html">4.6 伪随机(pseudorandom)数生成</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p07_Example_Random_Walks.html">4.7 示例：随机游走</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p08_Conclusion.html">4.8 总结</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a></li>
 </ul>
 
             
@@ -140,8 +124,6 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a> &raquo;</li>
-        
       <li>4.1 NumPy ndarray：一个多维数组对象</li>
     
     
@@ -163,55 +145,6 @@
             
   <div class="section" id="numpy-ndarray">
 <h1>4.1 NumPy ndarray：一个多维数组对象<a class="headerlink" href="#numpy-ndarray" title="Permalink to this headline">¶</a></h1>
-<p>NumPy是Numerical Python的缩写(<strong>short for</strong>)，是Python中数值计算最重要的基础包之一。
-大多数提供科学计算功能的包使用NumPy的数组对象作为数据交换的通用语言。</p>
-<p>有几样你将在NumPy中发现:</p>
-<p>ndarray，一个高效的多维数组，提供快速的面向数组的算法操作和灵活的broadcasting能力。</p>
-<p>在整个数组数据上不需要写循环就可以快速操作的数学函数。</p>
-<p>读写数组数据到磁盘的工具，和内存映射文件工作。</p>
-<p>线性代数、随机数生成和傅里叶变换等能力。</p>
-<p>连接NumPy到用C、C++或FORTRAN写的库的C API。</p>
-<p>因为NumPy提供易于使用的C API，很容易传递数据到用更低语言写的外部库和从外部库返回数据到Python的NumPy数组中。
-此功能使Python成为包装(<strong>wrap</strong>)旧(<strong>legacy</strong>)C / C ++ / Fortran代码库并为其提供动态和易于使用的接口。</p>
-<p>NumPy本身不提供建模或科学计算功能，理解NumPy数组和面向数组的计算将帮助你使用面向数组语义十分有效的工具，如pandas。
-因为NumPy是一个很大的主题，我将更深入讨论许多如broadcasting等先进的NumPy特性（见附录A）。</p>
-<p>对于大多数数据分析应用，我们将关注主要功能领域是：</p>
-<p>快速向量化数组操作，用于数据整理和清理、子集和过滤、转换和任何其他类型的计算</p>
-<p>常见的数组算法，如排序，唯一和集合操作</p>
-<p>高效的描述性统计和聚合(<strong>aggregating</strong>)/汇总数据</p>
-<p>数据对齐和关系数据操作对于合并和连接到一个异构(<strong>heterogeneous</strong>)数据集中</p>
-<p>将条件逻辑表示为数组表达式而不是使用if-elif-else的循环分支机构</p>
-<p>分组数据操作（聚合，转换，功能应用）</p>
-<p>虽然Numpy提供关于通用数值数据处理的计算功能，但大量用户想要使用pandas作为基础对于许多统计和分析，尤其关于表格数据。
-pandas也提供一些特殊领域，如时间序列操作，NumPy中没有呈现的。</p>
-<p>注：
-Python中面向数组的计算根源可追溯到1995年，在Jim Hugunin创建了数值计算库时。
-后面的10年，大量科学计算程序社区开始在Python中做数组编程，但是库的生态系统在2000年初支离破碎(<strong>fragmented</strong>)。
-在2005年，Travis Oliphant通过当时的Numeric和Numarray项目打造(<strong>forge</strong>)NumPy项目，将社区整合到单个数组计算框架中。</p>
-<p>在Python数值计算，NumPy如此重要的原因之一是因为它被设计成对大型数组数据高效。有以下一点原因：</p>
-<p>NumPy内部储存数据在连续的内存块，独立于其它内建Python对象。用C语言实现的NumPy算法库能够操纵内存无须类型检查或其它开销(<strong>overhead</strong>)。</p>
-<p>NumPy在整个数组上执行复杂计算无须Python for循环。</p>
-<p>为了给你性能差异的直观概念，考虑百万整型的Numpy数据以及等效的Python列表:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">my_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1000000</span><span class="p">)</span>
-
-<span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="n">my_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1000000</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>现在让我们对序列中每个元素乘以2:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="o">%</span><span class="n">time</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span> <span class="n">my_arr2</span> <span class="o">=</span> <span class="n">my_arr</span> <span class="o">*</span> <span class="mi">2</span>
-<span class="n">CPU</span> <span class="n">times</span><span class="p">:</span> <span class="n">user</span> <span class="mi">20</span> <span class="n">ms</span><span class="p">,</span> <span class="n">sys</span><span class="p">:</span> <span class="mi">50</span> <span class="n">ms</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="mi">70</span> <span class="n">ms</span>
-<span class="n">Wall</span> <span class="n">time</span><span class="p">:</span> <span class="mf">72.4</span> <span class="n">ms</span>
-
-<span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="o">%</span><span class="n">time</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span> <span class="n">my_list2</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">my_list</span><span class="p">]</span>
-<span class="n">CPU</span> <span class="n">times</span><span class="p">:</span> <span class="n">user</span> <span class="mi">760</span> <span class="n">ms</span><span class="p">,</span> <span class="n">sys</span><span class="p">:</span> <span class="mi">290</span> <span class="n">ms</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="mf">1.05</span> <span class="n">s</span>
-<span class="n">Wall</span> <span class="n">time</span><span class="p">:</span> <span class="mf">1.05</span> <span class="n">s</span>
-</pre></div>
-</div>
-<p>基于NumPy的算法通常比纯Python实现(<strong>counterparts</strong>)快10到100倍（或者更多）并使用明显更少的内存。</p>
-<div class="section" id="id1">
-<h2>NumPy ndarray，一个多维数组对象<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>NumPy最关键的特点之一是它的N维数组对象，或者叫ndarray，在Python中是一个快速、灵活的大数据集容器。
 数组使你能够使用相似的语法在整个数据块上执行数学操作，与在标量元素上有相同效果的操作。</p>
 <p>为了让您了解NumPy如何使用类似语法对于内置Python对象的标量值启用批量计算，我首先导入NumPy并生成一个小的随机数据数组:</p>
@@ -255,7 +188,6 @@ numpy名字空间是很大的，包含许多名字和内置Python函数冲突的
 虽然不必要深入理解NumPy的许多数据分析应用程序，但是精通(<strong>proficient</strong>)面向数组的编程和思考是成为科学计算Python专家(<strong>guru</strong>)的关键一步。</p>
 <p>注：
 不管在文中你是见到array、NumPy array还是ndarray，除少数例外外，它们都是指相同的东西：ndarray对象。</p>
-</div>
 <div class="section" id="ndarray">
 <h2>创建ndarray<a class="headerlink" href="#ndarray" title="Permalink to this headline">¶</a></h2>
 <p>创建一个数组的最简单方式是使用array函数。
@@ -306,15 +238,6 @@ numpy名字空间是很大的，包含许多名字和内置Python函数冲突的
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html" class="btn btn-neutral float-right" title="4.2 通用函数：快速逐元素(element-wise)数组函数" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html" class="btn btn-neutral" title="第四章：numpy基础：数组和向量化计算" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
