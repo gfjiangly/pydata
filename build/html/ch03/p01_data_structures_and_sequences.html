@@ -359,11 +359,55 @@
 </div>
 <div class="section" id="id6">
 <h3>添加和移除元素<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<p>使用append方法可以追加元素到列表末端</p>
-<p>使用insert方法可以在列表的特定位置插入一个元素</p>
+<p>使用append方法可以追加元素到列表末端:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">45</span><span class="p">]:</span> <span class="n">b_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;dwarf&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">46</span><span class="p">]:</span> <span class="n">b_list</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">46</span><span class="p">]:</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;peekaboo&#39;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">,</span> <span class="s1">&#39;dwarf&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>使用insert方法可以在列表的特定位置插入一个元素:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">47</span><span class="p">]:</span> <span class="n">b_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">48</span><span class="p">]:</span> <span class="n">b_list</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">48</span><span class="p">]:</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;peekaboo&#39;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">,</span> <span class="s1">&#39;dwarf&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <p>插入索引必须在0到列表长度之间，两端值也都包括(inclusive)。</p>
 <p>注意：插入比追加计算昂贵，因为涉及的子列必须在内部移动以为新元素腾出位置。
 如果你需要在一个序列的开头和结尾处插入元素，为此，你可以研究collection.deque，一个双端列队。</p>
+<p>insert的对立操作是pop，在list的特定索引移除和返回一个元素:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">49</span><span class="p">]:</span> <span class="n">b_list</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">49</span><span class="p">]:</span> <span class="s1">&#39;peekaboo&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">50</span><span class="p">]:</span> <span class="n">b_list</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">50</span><span class="p">]:</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">,</span> <span class="s1">&#39;dwarf&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>remove可以通过值移除元素，定位第一个这样的值，从最后移除:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">51</span><span class="p">]:</span> <span class="n">b_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">52</span><span class="p">]:</span> <span class="n">b_list</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">52</span><span class="p">]:</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">,</span> <span class="s1">&#39;dwarf&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">53</span><span class="p">]:</span> <span class="n">b_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">54</span><span class="p">]:</span> <span class="n">b_list</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">54</span><span class="p">]:</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">,</span> <span class="s1">&#39;dwarf&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>如果不关心性能，通过使用append和remove，你可以使用Python列表作为一个完美地合适的”多集合”数据结构。</p>
+<p>使用in关键字检查列表是否包含某个值:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">55</span><span class="p">]:</span> <span class="s1">&#39;dwarf&#39;</span> <span class="ow">in</span> <span class="n">b_list</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">55</span><span class="p">]:</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>关键字not可用于否定(<strong>negate in</strong>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">56</span><span class="p">]:</span> <span class="s1">&#39;dwarf&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">b_list</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">56</span><span class="p">]:</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>检查一个list是否包含某个值比相同的操作在字典和集合更慢，因为Python对列表值做线性扫描，而它可以在恒定时间内检查其它数据结构（基于哈希表）。</p>
 </div>
 <div class="section" id="id7">
 <h3>连接和组合列表<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>

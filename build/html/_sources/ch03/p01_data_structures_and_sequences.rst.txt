@@ -192,14 +192,58 @@ rest位有时是一些我们想要丢弃的东西；rest名字没有什么特别
 添加和移除元素
 ~~~~~~~~~~~~~~~~~
 
-使用append方法可以追加元素到列表末端
+使用append方法可以追加元素到列表末端::
 
-使用insert方法可以在列表的特定位置插入一个元素
+	In [45]: b_list.append('dwarf')
+
+	In [46]: b_list
+	Out[46]: ['foo', 'peekaboo', 'baz', 'dwarf']
+
+使用insert方法可以在列表的特定位置插入一个元素::
+
+	In [47]: b_list.insert(1, 'red')
+
+	In [48]: b_list
+	Out[48]: ['foo', 'red', 'peekaboo', 'baz', 'dwarf']
 
 插入索引必须在0到列表长度之间，两端值也都包括(inclusive)。
 
 注意：插入比追加计算昂贵，因为涉及的子列必须在内部移动以为新元素腾出位置。
 如果你需要在一个序列的开头和结尾处插入元素，为此，你可以研究collection.deque，一个双端列队。
+
+insert的对立操作是pop，在list的特定索引移除和返回一个元素::
+
+	In [49]: b_list.pop(2)
+	Out[49]: 'peekaboo'
+
+	In [50]: b_list
+	Out[50]: ['foo', 'red', 'baz', 'dwarf']
+
+remove可以通过值移除元素，定位第一个这样的值，从最后移除::
+
+	In [51]: b_list.append('foo')
+
+	In [52]: b_list
+	Out[52]: ['foo', 'red', 'baz', 'dwarf', 'foo']
+
+	In [53]: b_list.remove('foo')
+
+	In [54]: b_list
+	Out[54]: ['red', 'baz', 'dwarf', 'foo']
+
+如果不关心性能，通过使用append和remove，你可以使用Python列表作为一个完美地合适的"多集合"数据结构。
+
+使用in关键字检查列表是否包含某个值::
+
+	In [55]: 'dwarf' in b_list
+	Out[55]: True
+
+关键字not可用于否定(**negate in**)::
+
+	In [56]: 'dwarf' not in b_list
+	Out[56]: False
+
+检查一个list是否包含某个值比相同的操作在字典和集合更慢，因为Python对列表值做线性扫描，而它可以在恒定时间内检查其它数据结构（基于哈希表）。
 
 ~~~~~~~~~~~~~~~~
 连接和组合列表
