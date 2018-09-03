@@ -27,7 +27,9 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.2 通用函数：快速逐元素(element-wise)数组函数" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html" />
+    <link rel="prev" title="第四章：numpy基础：数组和向量化计算" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -76,9 +78,29 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../chapters/p03_build-in_data_structure_function_and_files.html">第三章：内建数据结构，函数和文件</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">4.1 NumPy ndarray：一个多维数组对象</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ndarray">创建ndarray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">ndarray数据类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#numpy-arithmetic">使用NumPy数组进行算术运算(<strong>arithmetic</strong>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">基本索引和切片</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">使用切片进行索引</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">布尔索引</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html">4.2 通用函数：快速逐元素(element-wise)数组函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_Array-Oriented_Programming_with_Arrays.html">4.3 使用数组的面向数组编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p04_File_Input_and_Output_with_Arrays.html">4.4 带数组的文件输入输出</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p05_Linear_Algebra.html">4.5 线性代数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p06_Pseudorandom_Number_Generation.html">4.6 伪随机(pseudorandom)数生成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p07_Example_Random_Walks.html">4.7 示例：随机游走</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p08_Conclusion.html">4.8 总结</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -123,6 +145,8 @@
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a> &raquo;</li>
         
       <li>4.1 NumPy ndarray：一个多维数组对象</li>
     
@@ -230,6 +254,485 @@ numpy名字空间是很大的，包含许多名字和内置Python函数冲突的
 <span class="n">Out</span><span class="p">[</span><span class="mi">28</span><span class="p">]:</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;int64&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>除了np.array还有许多其它函数可以创建新数组。
+例如，zeros和ones分别创建全0或全1的数组，使用给定的长度或shape。empty创建没有初始化值到具体值的数组。
+为了用这些方法创建更高维度的数组，传一个元组给shape:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">29</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">29</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">30</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">30</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">31</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">31</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]],</span>
+<span class="p">[[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]]])</span>
+</pre></div>
+</div>
+<p>注意：
+假定np.empty返回一个全0的数组不安全。
+在某些情况，它可能返回未初始化的”垃圾”值。</p>
+<p>arange是Python内建range函数的一个数组值版本:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">32</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">32</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>见表4-1 标准数组创建函数短列表。
+由于NumPy关注于数值计算，数据类型如果未指定，在许多情况下是float64（浮点）。</p>
+<a class="reference internal image-reference" href="../_images/Table_4-1_Array_creation_functions.png"><img alt="../_images/Table_4-1_Array_creation_functions.png" src="../_images/Table_4-1_Array_creation_functions.png" style="width: 800px;" /></a>
+</div>
+<div class="section" id="id1">
+<h2>ndarray数据类型<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>数据类型或dtype是一类特殊的对象，包含信息（或元数据，关于数据的数据）ndarray需要将一块内存解释为特定的数据类型:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">33</span><span class="p">]:</span> <span class="n">arr1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">34</span><span class="p">]:</span> <span class="n">arr2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">35</span><span class="p">]:</span> <span class="n">arr1</span><span class="o">.</span><span class="n">dtype</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">35</span><span class="p">]:</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">36</span><span class="p">]:</span> <span class="n">arr2</span><span class="o">.</span><span class="n">dtype</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">36</span><span class="p">]:</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>dtype是NumPy与其它系统交互数据的灵活性来源。
+在大多数情况下，它们直接映射到底层磁盘或内存表示，可以轻松读取和写入二进制数据流数据到磁盘以及连接到用C或Fortran等低级语言编写的代码。
+dtype数值以相同方式命名：一个类型名如float或int，随后是一个表明每个元素占多少位的数字。标准双精度浮点数占8个字节或64位。
+因此，这种类型在NumPy中被命名为float64。见表4-2 NumPy支持的数据类型全面清单。</p>
+<p>注：不要担心记忆NumPy数据类型，尤其是你现在还是一个新手时。
+仅仅有必要关心你正在处理的通用数据种类，是浮点数。复数、整型、布尔型还是一般的Python对象。
+当你需要更多地控制在磁盘和内存中数据储存方式时，特别是大型数据集，最好知道你控制的储存类型。</p>
+<a class="reference internal image-reference" href="../_images/Table_4-2_NumPy_data_types.png"><img alt="../_images/Table_4-2_NumPy_data_types.png" src="../_images/Table_4-2_NumPy_data_types.png" style="width: 800px;" /></a>
+<p>你能显式转换或铸造(<strong>cast</strong>)一个数组从一种dtype到另一种，使用ndarray的adtype方法:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">37</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">38</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">dtype</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">38</span><span class="p">]:</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;int64&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">39</span><span class="p">]:</span> <span class="n">float_arr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">40</span><span class="p">]:</span> <span class="n">float_arr</span><span class="o">.</span><span class="n">dtype</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">40</span><span class="p">]:</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在这个例子中，整型被转换成浮点型。
+如果我转换一些浮点数字到一个整型dtype，小数部分将被丢弃:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">41</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.6</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">12.9</span><span class="p">,</span> <span class="mf">10.1</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">42</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">42</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">3.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.6</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">12.9</span><span class="p">,</span> <span class="mf">10.1</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">43</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">43</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果你有代表数字的字符串数组，你可以使用astype转换它们到数值形式:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">44</span><span class="p">]:</span> <span class="n">numeric_strings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;1.25&#39;</span><span class="p">,</span> <span class="s1">&#39;-9.6&#39;</span><span class="p">,</span> <span class="s1">&#39;42&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">string_</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">45</span><span class="p">]:</span> <span class="n">numeric_strings</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">45</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">1.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.6</span> <span class="p">,</span> <span class="mf">42.</span> <span class="p">])</span>
+</pre></div>
+</div>
+<p>注意：谨慎使用numpy.string_type，因为string是固定大小，可能丢弃输入而没有警告。
+pandas对非数字数据有更直观的开箱即用(<strong>out-of-the-box</strong>)行为。</p>
+<p>如果由于一些原因（如字符串不能别转换成float64）转换失败，ValueError将抛出。
+这儿我有点懒，写了float代替np.float64；NumPy将Python类型别名为其自己的等效数据类型。
+你也可以使用另一种数组dtype属性:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">46</span><span class="p">]:</span> <span class="n">int_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">47</span><span class="p">]:</span> <span class="n">calibers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">.</span><span class="mi">22</span><span class="p">,</span> <span class="o">.</span><span class="mi">270</span><span class="p">,</span> <span class="o">.</span><span class="mi">357</span><span class="p">,</span> <span class="o">.</span><span class="mi">380</span><span class="p">,</span> <span class="o">.</span><span class="mi">44</span><span class="p">,</span> <span class="o">.</span><span class="mi">50</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">48</span><span class="p">]:</span> <span class="n">int_array</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">calibers</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">48</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">,</span> <span class="mf">7.</span><span class="p">,</span> <span class="mf">8.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>有速记(<strong>shorthand</strong>)类型代码字符串，你可以指定一个dtype:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">49</span><span class="p">]:</span> <span class="n">empty_uint32</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;u4&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">50</span><span class="p">]:</span> <span class="n">empty_uint32</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">50</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1075314688</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1075707904</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+<span class="mi">1075838976</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1072693248</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uint32</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>注：
+调用astype一直会创建一个新数组（数据的一份拷贝），即使新dtype与老dtype相同。</p>
+</div>
+<div class="section" id="numpy-arithmetic">
+<h2>使用NumPy数组进行算术运算(<strong>arithmetic</strong>)<a class="headerlink" href="#numpy-arithmetic" title="Permalink to this headline">¶</a></h2>
+<p>数组是重要的因为它不需要使用for循环就可以表达数据的批量操作。
+NumPy使用者称此为向量化。
+任何在相同尺寸数组之间的算术操作都将操作应用到每个元素上:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">51</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">],</span> <span class="p">[</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">52</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">52</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">53</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">*</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">53</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">16.</span><span class="p">,</span> <span class="mf">25.</span><span class="p">,</span> <span class="mf">36.</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">54</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">-</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">54</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>与标量的算术操作将操作扩散(<strong>propagate</strong>)到数组中每个元素:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">55</span><span class="p">]:</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">55</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">1.</span> <span class="p">,</span> <span class="mf">0.5</span> <span class="p">,</span> <span class="mf">0.3333</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.25</span> <span class="p">,</span> <span class="mf">0.2</span> <span class="p">,</span> <span class="mf">0.1667</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">56</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">**</span> <span class="mf">0.5</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">56</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">1.</span> <span class="p">,</span> <span class="mf">1.4142</span><span class="p">,</span> <span class="mf">1.7321</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">2.</span> <span class="p">,</span> <span class="mf">2.2361</span><span class="p">,</span> <span class="mf">2.4495</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>相同大小之间的比较产生布尔数组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">57</span><span class="p">]:</span> <span class="n">arr2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span> <span class="p">[</span><span class="mf">7.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">12.</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">58</span><span class="p">]:</span> <span class="n">arr2</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">58</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">7.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">12.</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">59</span><span class="p">]:</span> <span class="n">arr2</span> <span class="o">&gt;</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">59</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+<span class="p">[</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在不同大小数组之间操作称之为广播(<strong>broadcasting</strong>)，将在附录A中详细讨论。本书的大部分不需要深入理解广播。</p>
+</div>
+<div class="section" id="id2">
+<h2>基本索引和切片<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>NumPy数组索引是一个丰富的主题，因为有许多方法可以从你的数据中选择子集或单个元素。
+一维数组很简单，表面上看与Python列表操作相似:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">60</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">61</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">61</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">62</span><span class="p">]:</span> <span class="n">arr</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">62</span><span class="p">]:</span> <span class="mi">5</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">63</span><span class="p">]:</span> <span class="n">arr</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">63</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">64</span><span class="p">]:</span> <span class="n">arr</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="mi">12</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">65</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">65</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>如你看到的，你可以给切片赋一个标量值，像在arr[5:8] = 12，值被扩散到整个选中区域。
+与Python列表一个重要的区别是数组切片是原始数组视图。
+这意味着数据没有拷贝，任何对视图的修改将反映到源数组中。</p>
+<p>给一个这样的例子，我首先创建arr的一个切片:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">66</span><span class="p">]:</span> <span class="n">arr_slice</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">67</span><span class="p">]:</span> <span class="n">arr_slice</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">67</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>现在当我改变arr_slice值，变化(<strong>mutation</strong>)反映到原始数组arr中:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">68</span><span class="p">]:</span> <span class="n">arr_slice</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">12345</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">69</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">69</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12345</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span>
+<span class="mi">9</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>“光秃秃”的切片将给一个数组中所有元素赋值:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">70</span><span class="p">]:</span> <span class="n">arr_slice</span><span class="p">[:]</span> <span class="o">=</span> <span class="mi">64</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">71</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">71</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>如果你是NumPy新手，你可能对此感到惊讶，尤其如果你使用过其它编程语言，拷贝数据很常见。
+由于NumPy被设计处理很大的数组，如果NumPy坚持一直拷贝数据，你可以想象到性能和内存问题。</p>
+<p>注意：
+如果你想要ndarray切片的一个拷贝而不是试图，你需要显示拷贝数组-例如，arr[5:8].copy()。</p>
+<p>处理更高维数组，你有更多选项。
+在二维数组中，每个索引元素不再是标量而是一维数组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">72</span><span class="p">]:</span> <span class="n">arr2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">73</span><span class="p">]:</span> <span class="n">arr2d</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">73</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>单个元素可以递归访问。
+但是那样要做更多工作，你能传递一个逗号分隔的索引列表来选择单个元素。
+它们有相同的效果:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">74</span><span class="p">]:</span> <span class="n">arr2d</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">74</span><span class="p">]:</span> <span class="mi">3</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">75</span><span class="p">]:</span> <span class="n">arr2d</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">75</span><span class="p">]:</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>见图4-1二维数组索引说明。
+我发现将轴0想成”行”轴1想成”列”是有帮助的。</p>
+<a class="reference internal image-reference" href="../_images/Figure_4-1_Indexing_elements_in_a_NumPy_array.png"><img alt="../_images/Figure_4-1_Indexing_elements_in_a_NumPy_array.png" src="../_images/Figure_4-1_Indexing_elements_in_a_NumPy_array.png" style="width: 800px;" /></a>
+<p>在多维数组中，如果你省略后面的索引，返回的对象将是包含沿更高维全部数据的更低维ndarray。
+所以在2x2x3数组arr3d:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">76</span><span class="p">]:</span> <span class="n">arr3d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span> <span class="p">[[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">77</span><span class="p">]:</span> <span class="n">arr3d</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">77</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span>
+<span class="p">[[</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]]])</span>
+
+<span class="n">arr3d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="n">是2x3数组</span><span class="p">::</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">78</span><span class="p">]:</span> <span class="n">arr3d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">78</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>标量或数组都可以赋给arr3d[0]:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">79</span><span class="p">]:</span> <span class="n">old_values</span> <span class="o">=</span> <span class="n">arr3d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">80</span><span class="p">]:</span> <span class="n">arr3d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">81</span><span class="p">]:</span> <span class="n">arr3d</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">81</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[[</span><span class="mi">42</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">42</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">42</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">42</span><span class="p">]],</span>
+<span class="p">[[</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">82</span><span class="p">]:</span> <span class="n">arr3d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_values</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">83</span><span class="p">]:</span> <span class="n">arr3d</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">83</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span>
+<span class="p">[[</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]]])</span>
+</pre></div>
+</div>
+<p>类似地，arr3d[1, 0]给你索引从(1, 0)开始的所有值，形成一个1维数组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">84</span><span class="p">]:</span> <span class="n">arr3d</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">84</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>这个表达式得到的结果与上面的相同，虽然我们索引了两步:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">85</span><span class="p">]:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">arr3d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">86</span><span class="p">]:</span> <span class="n">x</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">86</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">87</span><span class="p">]:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">87</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>注意上面全部例子里，数组被选中的子集返回数组都是视图。</p>
+<div class="section" id="id3">
+<h3>使用切片进行索引<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>一维对象像Python列表，ndarray使用相似的语法切片:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">88</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">88</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">89</span><span class="p">]:</span> <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">89</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>考虑之前的二维数组，arr2d。切片这个数组有点不同:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">90</span><span class="p">]:</span> <span class="n">arr2d</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">90</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">91</span><span class="p">]:</span> <span class="n">arr2d</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">91</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>正如你看到的，它沿着轴0，第一个轴切片。
+切片，沿着某个轴选择一定范围的元素。看表达式arr2d[:2]作为”选择arr2d的前两行”是有帮助的。</p>
+<p>你能传递多个切片就像你可以传递多个索引一样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">92</span><span class="p">]:</span> <span class="n">arr2d</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">92</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>像这样切片，你可以获得相同维度的数组视图。
+通过混合整型索引和切片，你可以得到更低维度切片。</p>
+<p>例如，我能选择第二行但是仅仅前两列，像这样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">93</span><span class="p">]:</span> <span class="n">arr2d</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">93</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>类似地，我能选择第三列但是仅仅前两行，像这样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">94</span><span class="p">]:</span> <span class="n">arr2d</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">94</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>见图4-2的说明。
+注意逗号本身意味着对全部轴操作，所以你可以仅仅在更高维轴通过这样切片:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">95</span><span class="p">]:</span> <span class="n">arr2d</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">95</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">4</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">7</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>当然，赋值给一个切片表达式等于赋值给整个选中内容:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">96</span><span class="p">]:</span> <span class="n">arr2d</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">97</span><span class="p">]:</span> <span class="n">arr2d</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">97</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/Figure_4-2_Two-dimensional_array_slicing.png"><img alt="../_images/Figure_4-2_Two-dimensional_array_slicing.png" src="../_images/Figure_4-2_Two-dimensional_array_slicing.png" style="width: 800px;" /></a>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>布尔索引<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>让我们考虑一个例子，我们有一些数据在数组中，数组中有重复的名字。
+这里我将使用numpy.random中randn函数来生成一些随机正态(normally)分布数据:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">98</span><span class="p">]:</span> <span class="n">names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;Will&#39;</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;Will&#39;</span><span class="p">,</span> <span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;Joe&#39;</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">99</span><span class="p">]:</span> <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">100</span><span class="p">]:</span> <span class="n">names</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">100</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;Will&#39;</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;Will&#39;</span><span class="p">,</span> <span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;Joe&#39;</span><span class="p">],</span>
+<span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&lt;U4&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">101</span><span class="p">]:</span> <span class="n">data</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">101</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">0.0929</span><span class="p">,</span> <span class="mf">0.2817</span><span class="p">,</span> <span class="mf">0.769</span> <span class="p">,</span> <span class="mf">1.2464</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.0072</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2962</span><span class="p">,</span> <span class="mf">0.275</span> <span class="p">,</span> <span class="mf">0.2289</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.3529</span><span class="p">,</span> <span class="mf">0.8864</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0016</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3718</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.669</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.4386</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5397</span><span class="p">,</span> <span class="mf">0.477</span> <span class="p">],</span>
+<span class="p">[</span> <span class="mf">3.2489</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0212</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5771</span><span class="p">,</span> <span class="mf">0.1241</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.3026</span><span class="p">,</span> <span class="mf">0.5238</span><span class="p">,</span> <span class="mf">0.0009</span><span class="p">,</span> <span class="mf">1.3438</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.7135</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8312</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.3702</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.8608</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>假定每个名字对应data数组中每一行并且我们想要选中对应名字”Bob”的所有行。
+像算术操作，数组的比较也被向量化了。
+因此，比较names和字符串”Bob”产生一个布尔型数组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">102</span><span class="p">]:</span> <span class="n">names</span> <span class="o">==</span> <span class="s1">&#39;Bob&#39;</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">102</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+<span class="n">这个布尔数组可以被传递来索引数组</span><span class="p">::</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">103</span><span class="p">]:</span> <span class="n">data</span><span class="p">[</span><span class="n">names</span> <span class="o">==</span> <span class="s1">&#39;Bob&#39;</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">103</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">0.0929</span><span class="p">,</span> <span class="mf">0.2817</span><span class="p">,</span> <span class="mf">0.769</span> <span class="p">,</span> <span class="mf">1.2464</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.669</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.4386</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5397</span><span class="p">,</span> <span class="mf">0.477</span> <span class="p">]])</span>
+</pre></div>
+</div>
+<p>布尔数组必须与它索引数组的轴相同长度。
+你甚至可以混合和用索引或整型（或整型序列；稍后介绍）匹配布尔数组。</p>
+<p>注意：
+如果布尔数组长度不正确，布尔选择不会失败，所以建议小心使用这个特性。</p>
+<p>在这些例子中，我选择names == ‘Bob’的行，也索引列:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">104</span><span class="p">]:</span> <span class="n">data</span><span class="p">[</span><span class="n">names</span> <span class="o">==</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">104</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">0.769</span> <span class="p">,</span> <span class="mf">1.2464</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.5397</span><span class="p">,</span> <span class="mf">0.477</span> <span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">105</span><span class="p">]:</span> <span class="n">data</span><span class="p">[</span><span class="n">names</span> <span class="o">==</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">105</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">1.2464</span><span class="p">,</span> <span class="mf">0.477</span> <span class="p">])</span>
+</pre></div>
+</div>
+<p>要选中除了’Bob’的所有内容，你可以使用!=或使用~否定条件:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">106</span><span class="p">]:</span> <span class="n">names</span> <span class="o">!=</span> <span class="s1">&#39;Bob&#39;</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">106</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">107</span><span class="p">]:</span> <span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">names</span> <span class="o">==</span> <span class="s1">&#39;Bob&#39;</span><span class="p">)]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">107</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">1.0072</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2962</span><span class="p">,</span> <span class="mf">0.275</span> <span class="p">,</span> <span class="mf">0.2289</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.3529</span><span class="p">,</span> <span class="mf">0.8864</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0016</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3718</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">3.2489</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0212</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5771</span><span class="p">,</span> <span class="mf">0.1241</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.3026</span><span class="p">,</span> <span class="mf">0.5238</span><span class="p">,</span> <span class="mf">0.0009</span><span class="p">,</span> <span class="mf">1.3438</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.7135</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8312</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.3702</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.8608</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>~操作符是有用的当你想反向一个一般条件:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">108</span><span class="p">]:</span> <span class="n">cond</span> <span class="o">=</span> <span class="n">names</span> <span class="o">==</span> <span class="s1">&#39;Bob&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">109</span><span class="p">]:</span> <span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="n">cond</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">109</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">1.0072</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2962</span><span class="p">,</span> <span class="mf">0.275</span> <span class="p">,</span> <span class="mf">0.2289</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.3529</span><span class="p">,</span> <span class="mf">0.8864</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0016</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3718</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">3.2489</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0212</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5771</span><span class="p">,</span> <span class="mf">0.1241</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.3026</span><span class="p">,</span> <span class="mf">0.5238</span><span class="p">,</span> <span class="mf">0.0009</span><span class="p">,</span> <span class="mf">1.3438</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.7135</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8312</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.3702</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.8608</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>结合多个布尔条件选中三个名字中的两个，使用布尔算术操作符像 &amp;(且) 和 !(或):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">110</span><span class="p">]:</span> <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">names</span> <span class="o">==</span> <span class="s1">&#39;Bob&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">names</span> <span class="o">==</span> <span class="s1">&#39;Will&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">111</span><span class="p">]:</span> <span class="n">mask</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">111</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">112</span><span class="p">]:</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">112</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">0.0929</span><span class="p">,</span> <span class="mf">0.2817</span><span class="p">,</span> <span class="mf">0.769</span> <span class="p">,</span> <span class="mf">1.2464</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.3529</span><span class="p">,</span> <span class="mf">0.8864</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0016</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3718</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.669</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.4386</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5397</span><span class="p">,</span> <span class="mf">0.477</span> <span class="p">],</span>
+<span class="p">[</span> <span class="mf">3.2489</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0212</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5771</span><span class="p">,</span> <span class="mf">0.1241</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>通过布尔索引从一个数组选择数据一直创建数据的一个副本，即使返回数组没有变化。</p>
+<p>注意：
+Python关键字and和or不能使用在布尔数组中，使用&amp;和|代替。</p>
+<p>使用布尔数组设置值是显而易见的(<strong>common-sense</strong>, 尝试的)。
+要设置data中所有负值为0，我们仅要做:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">113</span><span class="p">]:</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">114</span><span class="p">]:</span> <span class="n">data</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">114</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">0.0929</span><span class="p">,</span> <span class="mf">0.2817</span><span class="p">,</span> <span class="mf">0.769</span> <span class="p">,</span> <span class="mf">1.2464</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.0072</span><span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.275</span> <span class="p">,</span> <span class="mf">0.2289</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.3529</span><span class="p">,</span> <span class="mf">0.8864</span><span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.669</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.477</span> <span class="p">],</span>
+<span class="p">[</span> <span class="mf">3.2489</span><span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.1241</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.3026</span><span class="p">,</span> <span class="mf">0.5238</span><span class="p">,</span> <span class="mf">0.0009</span><span class="p">,</span> <span class="mf">1.3438</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">]])</span>
+</pre></div>
+</div>
+<p>使用一维布尔数组设置全部的行或列也很简单:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">115</span><span class="p">]:</span> <span class="n">data</span><span class="p">[</span><span class="n">names</span> <span class="o">!=</span> <span class="s1">&#39;Joe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">7</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">116</span><span class="p">]:</span> <span class="n">data</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">116</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">7.</span> <span class="p">,</span> <span class="mf">7.</span> <span class="p">,</span> <span class="mf">7.</span> <span class="p">,</span> <span class="mf">7.</span> <span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.0072</span><span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.275</span> <span class="p">,</span> <span class="mf">0.2289</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">7.</span> <span class="p">,</span> <span class="mf">7.</span> <span class="p">,</span> <span class="mf">7.</span> <span class="p">,</span> <span class="mf">7.</span> <span class="p">],</span>
+<span class="p">[</span> <span class="mf">7.</span> <span class="p">,</span> <span class="mf">7.</span> <span class="p">,</span> <span class="mf">7.</span> <span class="p">,</span> <span class="mf">7.</span> <span class="p">],</span>
+<span class="p">[</span> <span class="mf">7.</span> <span class="p">,</span> <span class="mf">7.</span> <span class="p">,</span> <span class="mf">7.</span> <span class="p">,</span> <span class="mf">7.</span> <span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.3026</span><span class="p">,</span> <span class="mf">0.5238</span><span class="p">,</span> <span class="mf">0.0009</span><span class="p">,</span> <span class="mf">1.3438</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">]])</span>
+</pre></div>
+</div>
+<p>我们将在后面看到，这种类型操作在二维数组上使用pandas来做是很方便的。</p>
 </div>
 </div>
 
@@ -238,6 +741,15 @@ numpy名字空间是很大的，包含许多名字和内置Python函数冲突的
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html" class="btn btn-neutral float-right" title="4.2 通用函数：快速逐元素(element-wise)数组函数" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html" class="btn btn-neutral" title="第四章：numpy基础：数组和向量化计算" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
