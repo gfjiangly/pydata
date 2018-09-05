@@ -816,16 +816,16 @@ Python关键字and和or不能使用在布尔数组中，使用&amp;和|代替。
 <span class="n">In</span> <span class="p">[</span><span class="mi">127</span><span class="p">]:</span> <span class="n">arr</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">127</span><span class="p">]:</span>
 <span class="n">array</span><span class="p">([[</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
-           <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
-           <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">]])</span>
+<span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">]])</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">128</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">T</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">128</span><span class="p">]:</span>
 <span class="n">array</span><span class="p">([[</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
-           <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
-           <span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
-           <span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span>
-           <span class="p">[</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">14</span><span class="p">]])</span>
+<span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">14</span><span class="p">]])</span>
 </pre></div>
 </div>
 <p>你可能经常要做矩阵计算-例如，当使用np.dot计算矩阵内积结果时:</p>
@@ -834,17 +834,17 @@ Python关键字and和or不能使用在布尔数组中，使用&amp;和|代替。
 <span class="n">In</span> <span class="p">[</span><span class="mi">130</span><span class="p">]:</span> <span class="n">arr</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">130</span><span class="p">]:</span>
 <span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.8608</span><span class="p">,</span> <span class="mf">0.5601</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2659</span><span class="p">],</span>
-           <span class="p">[</span> <span class="mf">0.1198</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0635</span><span class="p">,</span> <span class="mf">0.3329</span><span class="p">],</span>
-           <span class="p">[</span><span class="o">-</span><span class="mf">2.3594</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1995</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.542</span> <span class="p">],</span>
-           <span class="p">[</span><span class="o">-</span><span class="mf">0.9707</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.307</span> <span class="p">,</span> <span class="mf">0.2863</span><span class="p">],</span>
-           <span class="p">[</span> <span class="mf">0.378</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.7539</span><span class="p">,</span> <span class="mf">0.3313</span><span class="p">],</span>
-           <span class="p">[</span> <span class="mf">1.3497</span><span class="p">,</span> <span class="mf">0.0699</span><span class="p">,</span> <span class="mf">0.2467</span><span class="p">]])</span>
+<span class="p">[</span> <span class="mf">0.1198</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0635</span><span class="p">,</span> <span class="mf">0.3329</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">2.3594</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1995</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.542</span> <span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.9707</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.307</span> <span class="p">,</span> <span class="mf">0.2863</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.378</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.7539</span><span class="p">,</span> <span class="mf">0.3313</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.3497</span><span class="p">,</span> <span class="mf">0.0699</span><span class="p">,</span> <span class="mf">0.2467</span><span class="p">]])</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">131</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">131</span><span class="p">]:</span>
 <span class="n">array</span><span class="p">([[</span> <span class="mf">9.2291</span><span class="p">,</span> <span class="mf">0.9394</span><span class="p">,</span> <span class="mf">4.948</span> <span class="p">],</span>
-           <span class="p">[</span> <span class="mf">0.9394</span><span class="p">,</span> <span class="mf">3.7662</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3622</span><span class="p">],</span>
-           <span class="p">[</span> <span class="mf">4.948</span> <span class="p">,</span> <span class="o">-</span><span class="mf">1.3622</span><span class="p">,</span> <span class="mf">4.3437</span><span class="p">]])</span>
+<span class="p">[</span> <span class="mf">0.9394</span><span class="p">,</span> <span class="mf">3.7662</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3622</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">4.948</span> <span class="p">,</span> <span class="o">-</span><span class="mf">1.3622</span><span class="p">,</span> <span class="mf">4.3437</span><span class="p">]])</span>
 </pre></div>
 </div>
 <p>对于更高维度的数组，转置将接受轴编号的元组来置换轴（for extra mind bending，这句话没理解）:</p>
@@ -853,16 +853,16 @@ Python关键字and和or不能使用在布尔数组中，使用&amp;和|代替。
 <span class="n">In</span> <span class="p">[</span><span class="mi">133</span><span class="p">]:</span> <span class="n">arr</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">133</span><span class="p">]:</span>
 <span class="n">array</span><span class="p">([[[</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-                <span class="p">[</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]],</span>
-           <span class="p">[[</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
-                <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">]]])</span>
+<span class="p">[</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]],</span>
+<span class="p">[[</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">]]])</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">134</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>      <span class="c1">#将0轴和1轴交换</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">134</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">134</span><span class="p">]:</span>
 <span class="n">array</span><span class="p">([[[</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-            <span class="p">[</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">]],</span>
-           <span class="p">[[</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
-            <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">]]])</span>
+<span class="p">[</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">]],</span>
+<span class="p">[[</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">]]])</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -875,20 +875,20 @@ Python关键字and和or不能使用在布尔数组中，使用&amp;和|代替。
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">135</span><span class="p">]:</span> <span class="n">arr</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">135</span><span class="p">]:</span>
 <span class="n">array</span><span class="p">([[[</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-                <span class="p">[</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]],</span>
-           <span class="p">[[</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
-                <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">]]])</span>
+<span class="p">[</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]],</span>
+<span class="p">[[</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">]]])</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">136</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">136</span><span class="p">]:</span>
 <span class="n">array</span><span class="p">([[[</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
-            <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
-            <span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
-                <span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">]],</span>
-           <span class="p">[[</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
-                <span class="p">[</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span>
-                <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span>
-                <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">15</span><span class="p">]]])</span>
+<span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">]],</span>
+<span class="p">[[</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">15</span><span class="p">]]])</span>
 </pre></div>
 </div>
 <p>swapaxes类似返回数据视图没有拷贝。</p>
