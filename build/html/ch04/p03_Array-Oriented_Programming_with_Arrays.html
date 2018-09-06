@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>4.3 使用数组的面向数组编程 &mdash; pydata 0.1.0 documentation</title>
+  <title>4.3 面向数组的数组编程 &mdash; pydata 0.1.0 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="4.4 带数组的文件输入输出" href="p04_File_Input_and_Output_with_Arrays.html" />
-    <link rel="prev" title="4.2 通用函数：快速逐元素(Element-Wise)数组函数" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html" /> 
+    <link rel="prev" title="4.2 通用函数：快速逐元素(element-wise)数组函数" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -82,8 +82,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../chapters/p03_build-in_data_structure_function_and_files.html">第三章：内建数据结构，函数和文件</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="p01_the_numpy_ndarray_a_multidimensional_array_object.html">4.1 NumPy ndarray：一个多维数组对象</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html">4.2 通用函数：快速逐元素(Element-Wise)数组函数</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">4.3 使用数组的面向数组编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html">4.2 通用函数：快速逐元素(element-wise)数组函数</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">4.3 面向数组的数组编程</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">将条件逻辑表示为数组运算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">数学和统计方法</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="p04_File_Input_and_Output_with_Arrays.html">4.4 带数组的文件输入输出</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p05_Linear_Algebra.html">4.5 线性代数</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p06_Pseudorandom_Number_Generation.html">4.6 伪随机(pseudorandom)数生成</a></li>
@@ -138,7 +142,7 @@
         
           <li><a href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a> &raquo;</li>
         
-      <li>4.3 使用数组的面向数组编程</li>
+      <li>4.3 面向数组的数组编程</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -158,7 +162,127 @@
            <div itemprop="articleBody">
             
   <div class="section" id="id1">
-<h1>4.3 使用数组的面向数组编程<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>4.3 面向数组的数组编程<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>使用NumPy数组使你能够用简洁的数组表达式表达许多数据处理任务而不要写循环。
+用数组表达式替换显示循环的实践一般称为向量化。
+一般，向量化操作时常比纯Python等效实现快一两个（或更多）数量级，在任何种类的数值计算上影响更大。
+在附录A中，我阐述了广播(broadcasting),一种对于向量化计算强大的方法。</p>
+<p>举个简单的例子，假设我们希望通过规则的网格值求函数sqrt(x^2 + y^2)值。
+np.meshgrid函数接受2个一维数组并产生2个二维矩阵，对应于两个数组中的所有（x，y）对:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">155</span><span class="p">]:</span> <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span> <span class="c1"># 1000 equally spaced points</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">156</span><span class="p">]:</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">157</span><span class="p">]:</span> <span class="n">ys</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">157</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">5.</span> <span class="p">,</span> <span class="o">-</span><span class="mf">5.</span> <span class="p">,</span> <span class="o">-</span><span class="mf">5.</span> <span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.</span> <span class="p">,</span> <span class="o">-</span><span class="mf">5.</span> <span class="p">,</span> <span class="o">-</span><span class="mf">5.</span> <span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">4.99</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.99</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.99</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.99</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.99</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.99</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">4.98</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.98</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.98</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.98</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.98</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.98</span><span class="p">],</span>
+<span class="o">...</span><span class="p">,</span>
+<span class="p">[</span> <span class="mf">4.97</span><span class="p">,</span> <span class="mf">4.97</span><span class="p">,</span> <span class="mf">4.97</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">4.97</span><span class="p">,</span> <span class="mf">4.97</span><span class="p">,</span> <span class="mf">4.97</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">4.98</span><span class="p">,</span> <span class="mf">4.98</span><span class="p">,</span> <span class="mf">4.98</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">4.98</span><span class="p">,</span> <span class="mf">4.98</span><span class="p">,</span> <span class="mf">4.98</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">4.99</span><span class="p">,</span> <span class="mf">4.99</span><span class="p">,</span> <span class="mf">4.99</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">4.99</span><span class="p">,</span> <span class="mf">4.99</span><span class="p">,</span> <span class="mf">4.99</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>现在计算函数值是写两个点相同表达式的事:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">158</span><span class="p">]:</span> <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xs</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">ys</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">159</span><span class="p">]:</span> <span class="n">z</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">159</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">7.0711</span><span class="p">,</span> <span class="mf">7.064</span> <span class="p">,</span> <span class="mf">7.0569</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">7.0499</span><span class="p">,</span> <span class="mf">7.0569</span><span class="p">,</span> <span class="mf">7.064</span> <span class="p">],</span>
+<span class="p">[</span> <span class="mf">7.064</span> <span class="p">,</span> <span class="mf">7.0569</span><span class="p">,</span> <span class="mf">7.0499</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">7.0428</span><span class="p">,</span> <span class="mf">7.0499</span><span class="p">,</span> <span class="mf">7.0569</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">7.0569</span><span class="p">,</span> <span class="mf">7.0499</span><span class="p">,</span> <span class="mf">7.0428</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">7.0357</span><span class="p">,</span> <span class="mf">7.0428</span><span class="p">,</span> <span class="mf">7.0499</span><span class="p">],</span>
+<span class="o">...</span><span class="p">,</span>
+<span class="p">[</span> <span class="mf">7.0499</span><span class="p">,</span> <span class="mf">7.0428</span><span class="p">,</span> <span class="mf">7.0357</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">7.0286</span><span class="p">,</span> <span class="mf">7.0357</span><span class="p">,</span> <span class="mf">7.0428</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">7.0569</span><span class="p">,</span> <span class="mf">7.0499</span><span class="p">,</span> <span class="mf">7.0428</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">7.0357</span><span class="p">,</span> <span class="mf">7.0428</span><span class="p">,</span> <span class="mf">7.0499</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">7.064</span> <span class="p">,</span> <span class="mf">7.0569</span><span class="p">,</span> <span class="mf">7.0499</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">7.0428</span><span class="p">,</span> <span class="mf">7.0499</span><span class="p">,</span> <span class="mf">7.0569</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>作为第9章的预览，我使用matplotlib来创建这个二维数组的可视化:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">160</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">161</span><span class="p">]:</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">161</span><span class="p">]:</span> <span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">colorbar</span><span class="o">.</span><span class="n">Colorbar</span> <span class="n">at</span> <span class="mh">0x7f715e3fa630</span><span class="o">&gt;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">162</span><span class="p">]:</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Image plot of $\sqrt{x^2 + y^2}$ for a grid of values&quot;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">162</span><span class="p">]:</span> <span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">Text</span> <span class="n">at</span> <span class="mh">0x7f715d2de748</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>见表4-3，这里我使用matplotlib中imshow函数从一个函数值的二维数组创建图像。</p>
+<a class="reference internal image-reference" href="../_images/Figure_4-3_Plot_of_function_evaluated_on_grid.png"><img alt="../_images/Figure_4-3_Plot_of_function_evaluated_on_grid.png" src="../_images/Figure_4-3_Plot_of_function_evaluated_on_grid.png" style="width: 800px;" /></a>
+<div class="section" id="id2">
+<h2>将条件逻辑表示为数组运算<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>numpy.where是三元表达式x if condition else y的向量化版本。
+假设我们有一个布尔数组和两个值数组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">165</span><span class="p">]:</span> <span class="n">xarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">166</span><span class="p">]:</span> <span class="n">yarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">167</span><span class="p">]:</span> <span class="n">cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>假设相应位置的值在条件中为True时我们从xarr取值，否则从yarr取值。
+列表推导做这件事可能像这样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">168</span><span class="p">]:</span> <span class="n">result</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span> <span class="k">if</span> <span class="n">c</span> <span class="k">else</span> <span class="n">y</span><span class="p">)</span>
+<span class="o">.....</span><span class="p">:</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">yarr</span><span class="p">,</span> <span class="n">cond</span><span class="p">)]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">169</span><span class="p">]:</span> <span class="n">result</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">169</span><span class="p">]:</span> <span class="p">[</span><span class="mf">1.1000000000000001</span><span class="p">,</span> <span class="mf">2.2000000000000002</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.3999999999999999</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>这有多个问题。
+首先，大于大型数组这并不快（因为所有工作都是在解释的Python代码中完成的）。
+第二，对于多维数组无法工作。用np.where你可以简洁地写这个:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">170</span><span class="p">]:</span> <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cond</span><span class="p">,</span> <span class="n">xarr</span><span class="p">,</span> <span class="n">yarr</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">171</span><span class="p">]:</span> <span class="n">result</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">171</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>np.where的第二第三个参数不需要是数组；
+一个或两个都可以是标量。
+where在数据分析中的典型使用是基于另一个数组产生一个新的值数组。
+假设你有一个随机生成的矩阵数据并且你想用2替换全部的正数，用-2替换全部的负数。
+用np.where做这个很简单:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">172</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">173</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">173</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.5031</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6223</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9212</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7262</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.2229</span><span class="p">,</span> <span class="mf">0.0513</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1577</span><span class="p">,</span> <span class="mf">0.8167</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.4336</span><span class="p">,</span> <span class="mf">1.0107</span><span class="p">,</span> <span class="mf">1.8249</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9975</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.8506</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1316</span><span class="p">,</span> <span class="mf">0.9124</span><span class="p">,</span> <span class="mf">0.1882</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">174</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">174</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+<span class="p">[</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
+<span class="p">[</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+<span class="p">[</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">175</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">arr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">175</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>在使用np.where时你能结合标量和数组。
+例如，我能用常数2替换arr中全部正数，像这样:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">176</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">arr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span> <span class="c1"># set only positive values to 2</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">176</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.5031</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6223</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9212</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7262</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">2.</span> <span class="p">,</span> <span class="mf">2.</span> <span class="p">,</span> <span class="o">-</span><span class="mf">1.1577</span><span class="p">,</span> <span class="mf">2.</span> <span class="p">],</span>
+<span class="p">[</span> <span class="mf">2.</span> <span class="p">,</span> <span class="mf">2.</span> <span class="p">,</span> <span class="mf">2.</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.9975</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">2.</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.1316</span><span class="p">,</span> <span class="mf">2.</span> <span class="p">,</span> <span class="mf">2.</span> <span class="p">]])</span>
+</pre></div>
+</div>
+<p>传递给np.where的数组可以不仅仅是大小相等的数组或标量。</p>
+</div>
+<div class="section" id="id3">
+<h2>数学和统计方法<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
@@ -172,7 +296,7 @@
         <a href="p04_File_Input_and_Output_with_Arrays.html" class="btn btn-neutral float-right" title="4.4 带数组的文件输入输出" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html" class="btn btn-neutral" title="4.2 通用函数：快速逐元素(Element-Wise)数组函数" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html" class="btn btn-neutral" title="4.2 通用函数：快速逐元素(element-wise)数组函数" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

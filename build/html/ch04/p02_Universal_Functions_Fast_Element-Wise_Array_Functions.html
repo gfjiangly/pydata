@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4.3 使用数组的面向数组编程" href="p03_Array-Oriented_Programming_with_Arrays.html" />
+    <link rel="next" title="4.3 面向数组的数组编程" href="p03_Array-Oriented_Programming_with_Arrays.html" />
     <link rel="prev" title="4.1 NumPy ndarray：一个多维数组对象" href="p01_the_numpy_ndarray_a_multidimensional_array_object.html" /> 
 
   
@@ -83,7 +83,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="p01_the_numpy_ndarray_a_multidimensional_array_object.html">4.1 NumPy ndarray：一个多维数组对象</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">4.2 通用函数：快速逐元素(element-wise)数组函数</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p03_Array-Oriented_Programming_with_Arrays.html">4.3 使用数组的面向数组编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_Array-Oriented_Programming_with_Arrays.html">4.3 面向数组的数组编程</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p04_File_Input_and_Output_with_Arrays.html">4.4 带数组的文件输入输出</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p05_Linear_Algebra.html">4.5 线性代数</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p06_Pseudorandom_Number_Generation.html">4.6 伪随机(pseudorandom)数生成</a></li>
@@ -159,6 +159,83 @@
             
   <div class="section" id="element-wise">
 <h1>4.2 通用函数：快速逐元素(element-wise)数组函数<a class="headerlink" href="#element-wise" title="Permalink to this headline">¶</a></h1>
+<p>通用函数或ufunc是在ndarray数据上执行逐元素操作的函数。
+你可以把它们看成是传入一个或多个标量值产生一个或多个标量结果简单函数的快速向量化包装器。</p>
+<p>许多ufunc是简单的逐元素变换，像sqrt或exp:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">137</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">138</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">138</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">139</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">139</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">1.</span> <span class="p">,</span> <span class="mf">1.4142</span><span class="p">,</span> <span class="mf">1.7321</span><span class="p">,</span> <span class="mf">2.</span> <span class="p">,</span> <span class="mf">2.2361</span><span class="p">,</span> <span class="mf">2.4495</span><span class="p">,</span>
+<span class="mf">2.6458</span><span class="p">,</span> <span class="mf">2.8284</span><span class="p">,</span> <span class="mf">3.</span> <span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">140</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">140</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([</span> <span class="mf">1.</span> <span class="p">,</span> <span class="mf">2.7183</span><span class="p">,</span> <span class="mf">7.3891</span><span class="p">,</span> <span class="mf">20.0855</span><span class="p">,</span> <span class="mf">54.5982</span><span class="p">,</span>
+<span class="mf">148.4132</span><span class="p">,</span> <span class="mf">403.4288</span><span class="p">,</span> <span class="mf">1096.6332</span><span class="p">,</span> <span class="mf">2980.958</span> <span class="p">,</span> <span class="mf">8103.0839</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>这些被称为一元ufunc。其他的，例如add或maximum，取两个数组（因此成为二元ufuncs）并返回一个数组作为结果:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">141</span><span class="p">]:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">142</span><span class="p">]:</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">143</span><span class="p">]:</span> <span class="n">x</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">143</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.0119</span><span class="p">,</span> <span class="mf">1.0048</span><span class="p">,</span> <span class="mf">1.3272</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9193</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5491</span><span class="p">,</span> <span class="mf">0.0222</span><span class="p">,</span> <span class="mf">0.7584</span><span class="p">,</span>
+<span class="o">-</span><span class="mf">0.6605</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">144</span><span class="p">]:</span> <span class="n">y</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">144</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([</span> <span class="mf">0.8626</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01</span> <span class="p">,</span> <span class="mf">0.05</span> <span class="p">,</span> <span class="mf">0.6702</span><span class="p">,</span> <span class="mf">0.853</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.9559</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0235</span><span class="p">,</span>
+<span class="o">-</span><span class="mf">2.3042</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">145</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">145</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([</span> <span class="mf">0.8626</span><span class="p">,</span> <span class="mf">1.0048</span><span class="p">,</span> <span class="mf">1.3272</span><span class="p">,</span> <span class="mf">0.6702</span><span class="p">,</span> <span class="mf">0.853</span> <span class="p">,</span> <span class="mf">0.0222</span><span class="p">,</span> <span class="mf">0.7584</span><span class="p">,</span>
+<span class="o">-</span><span class="mf">0.6605</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>这里，numpy.maximun在x和y之间逐元素计算最大的元素。</p>
+<p>虽然(while)不常见，但ufunc可以返回多个数组。
+modf是一个例子，Python内置divmod的一个向量化版本；
+它返回一个浮点数组的小数部分和整数部分:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">146</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">*</span> <span class="mi">5</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">147</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">147</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">3.2623</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.0915</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.663</span> <span class="p">,</span> <span class="mf">5.3731</span><span class="p">,</span> <span class="mf">3.6182</span><span class="p">,</span> <span class="mf">3.45</span> <span class="p">,</span> <span class="mf">5.0077</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">148</span><span class="p">]:</span> <span class="n">remainder</span><span class="p">,</span> <span class="n">whole_part</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">modf</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">149</span><span class="p">]:</span> <span class="n">remainder</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">149</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.2623</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0915</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.663</span> <span class="p">,</span> <span class="mf">0.3731</span><span class="p">,</span> <span class="mf">0.6182</span><span class="p">,</span> <span class="mf">0.45</span> <span class="p">,</span> <span class="mf">0.0077</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">150</span><span class="p">]:</span> <span class="n">whole_part</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">150</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">3.</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>ufuncs接受一个可选的输出参数允许进行数组原位操作:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">151</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">151</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">3.2623</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.0915</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.663</span> <span class="p">,</span> <span class="mf">5.3731</span><span class="p">,</span> <span class="mf">3.6182</span><span class="p">,</span> <span class="mf">3.45</span> <span class="p">,</span> <span class="mf">5.0077</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">152</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">152</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="mf">2.318</span> <span class="p">,</span> <span class="mf">1.9022</span><span class="p">,</span> <span class="mf">1.8574</span><span class="p">,</span> <span class="mf">2.2378</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">153</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">153</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="mf">2.318</span> <span class="p">,</span> <span class="mf">1.9022</span><span class="p">,</span> <span class="mf">1.8574</span><span class="p">,</span> <span class="mf">2.2378</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">154</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">154</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="n">nan</span><span class="p">,</span> <span class="mf">2.318</span> <span class="p">,</span> <span class="mf">1.9022</span><span class="p">,</span> <span class="mf">1.8574</span><span class="p">,</span> <span class="mf">2.2378</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>见表4-3和4-4 可用ufuncs清单</p>
+<p>Table 4-3. Unary ufuncs</p>
+<a class="reference internal image-reference" href="../_images/Table_4-3__Unary_ufuncs.png"><img alt="../_images/Table_4-3__Unary_ufuncs.png" src="../_images/Table_4-3__Unary_ufuncs.png" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="../_images/Table_4-4_Binary_universal_functions_1.png"><img alt="../_images/Table_4-4_Binary_universal_functions_1.png" src="../_images/Table_4-4_Binary_universal_functions_1.png" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="../_images/Table_4-4_Binary_universal_functions_2.png"><img alt="../_images/Table_4-4_Binary_universal_functions_2.png" src="../_images/Table_4-4_Binary_universal_functions_2.png" style="width: 800px;" /></a>
 </div>
 
 
@@ -169,7 +246,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="p03_Array-Oriented_Programming_with_Arrays.html" class="btn btn-neutral float-right" title="4.3 使用数组的面向数组编程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="p03_Array-Oriented_Programming_with_Arrays.html" class="btn btn-neutral float-right" title="4.3 面向数组的数组编程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="p01_the_numpy_ndarray_a_multidimensional_array_object.html" class="btn btn-neutral" title="4.1 NumPy ndarray：一个多维数组对象" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
