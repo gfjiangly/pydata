@@ -73,7 +73,7 @@ NumPy在整个数组上执行复杂计算无须Python for循环。
 基于NumPy的算法通常比纯Python实现(**counterparts**)快10到100倍（或者更多）并使用明显更少的内存。
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :glob:
 
    ../ch04/*
