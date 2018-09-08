@@ -86,6 +86,9 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">4.3 面向数组的数组编程</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">将条件逻辑表示为数组运算</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">数学和统计方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">布尔数组方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">分类</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unique">Unique和其它集合逻辑</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="p04_File_Input_and_Output_with_Arrays.html">4.4 带数组的文件输入输出</a></li>
@@ -282,6 +285,176 @@ where在数据分析中的典型使用是基于另一个数组产生一个新的
 </div>
 <div class="section" id="id3">
 <h2>数学和统计方法<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>一组数学函数，用于计算有关整个数组或关于整个数组沿轴数据的统计信息，可作为数组类的方法访问。
+你可以通过调用数组实例方法或使用顶层NumPy函数来使用聚合(<strong>aggregation</strong>)（通常称为缩减），如sum，mean和std（标准差）。</p>
+<p>这儿我随机生成一些标准正态分布数据和计算一些聚合统计信息:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">177</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">178</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">178</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">2.1695</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1149</span><span class="p">,</span> <span class="mf">2.0037</span><span class="p">,</span> <span class="mf">0.0296</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.7953</span><span class="p">,</span> <span class="mf">0.1181</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7485</span><span class="p">,</span> <span class="mf">0.585</span> <span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.1527</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5657</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5625</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0327</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.929</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.4826</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0363</span><span class="p">,</span> <span class="mf">1.0954</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.9809</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5895</span><span class="p">,</span> <span class="mf">1.5817</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5287</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">179</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">179</span><span class="p">]:</span> <span class="mf">0.19607051119998253</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">180</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">180</span><span class="p">]:</span> <span class="mf">0.19607051119998253</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">181</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">181</span><span class="p">]:</span> <span class="mf">3.9214102239996507</span>
+</pre></div>
+</div>
+<p>像mean和sum函数有一个可选轴参数，计算沿给定轴统计信息，结果保存在一个更低维度数组中:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">182</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">182</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">1.022</span> <span class="p">,</span> <span class="mf">0.1875</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.502</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.0881</span><span class="p">,</span> <span class="mf">0.3611</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">183</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">183</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">3.1693</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.6345</span><span class="p">,</span> <span class="mf">2.2381</span><span class="p">,</span> <span class="mf">1.1486</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>这里，arr.mean(1)意思是”沿列计算均值”，arr.sum(0)意思是”沿行求和”。</p>
+<p>其它的方法如cumsum和cumprod不进行聚合，代替产生一个中间(<strong>intermediate</strong>)结果的数组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">184</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">185</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">185</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">28</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>在多维数组中，像cumsum这样的累积函数返回相同尺寸的数组，但是根据每个更低维度切片沿指示的轴进行部分聚合计算:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">186</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">187</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">187</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+<span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">188</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">188</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">189</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">cumprod</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">189</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span>
+<span class="p">[</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">336</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">沿某个轴进行操作不是切片意义（垂直轴）上对该轴数据进行操作，而是坐标轴意义（平行轴）上对该轴每个数据进行操作。</p>
+</div>
+<p>见表4-5 完全的清单。我们将在后面章节看到许多实际使用这些方法的例子。</p>
+<a class="reference internal image-reference" href="../_images/Table_4-5_Basic_array_statistical_methods.png"><img alt="../_images/Table_4-5_Basic_array_statistical_methods.png" src="../_images/Table_4-5_Basic_array_statistical_methods.png" style="width: 800px;" /></a>
+</div>
+<div class="section" id="id4">
+<h2>布尔数组方法<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>在前面的方法中，布尔值被强制为1（True）和0（False）。 因此，sum通常用作计算布尔数组中True值的方法(as a means of):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">190</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">191</span><span class="p">]:</span> <span class="p">(</span><span class="n">arr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="c1"># Number of positive values</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">191</span><span class="p">]:</span> <span class="mi">42</span>
+</pre></div>
+</div>
+<p>有两个额外的方法，any和all，对布尔数组特别有用。
+any测试在数组中是否有一个或多个True，all检查是否每个值都是True:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">192</span><span class="p">]:</span> <span class="n">bools</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">193</span><span class="p">]:</span> <span class="n">bools</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">193</span><span class="p">]:</span> <span class="kc">True</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">194</span><span class="p">]:</span> <span class="n">bools</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">194</span><span class="p">]:</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>这些方法对非布尔型数组也起作用，非0元素视为True。</p>
+</div>
+<div class="section" id="id5">
+<h2>分类<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>像Python内置列表类型，NumPy数组可以使用sort方法原位排序:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">195</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">196</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">196</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">0.6095</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4938</span><span class="p">,</span> <span class="mf">1.24</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.1357</span><span class="p">,</span> <span class="mf">1.43</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.8469</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">197</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">198</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">198</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8469</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4938</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1357</span><span class="p">,</span> <span class="mf">0.6095</span><span class="p">,</span> <span class="mf">1.24</span> <span class="p">,</span> <span class="mf">1.43</span> <span class="p">])</span>
+</pre></div>
+</div>
+<p>你可以原位排序多维数组中的每一维值，通过传递轴编号沿轴排序:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">199</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">200</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">200</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">0.6033</span><span class="p">,</span> <span class="mf">1.2636</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2555</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.4457</span><span class="p">,</span> <span class="mf">0.4684</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9616</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">1.8245</span><span class="p">,</span> <span class="mf">0.6254</span><span class="p">,</span> <span class="mf">1.0229</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">1.1074</span><span class="p">,</span> <span class="mf">0.0909</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3501</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.218</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.8948</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.7415</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">201</span><span class="p">]:</span> <span class="n">arr</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">202</span><span class="p">]:</span> <span class="n">arr</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">202</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.2555</span><span class="p">,</span> <span class="mf">0.6033</span><span class="p">,</span> <span class="mf">1.2636</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.9616</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4457</span><span class="p">,</span> <span class="mf">0.4684</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">1.8245</span><span class="p">,</span> <span class="mf">0.6254</span><span class="p">,</span> <span class="mf">1.0229</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.3501</span><span class="p">,</span> <span class="mf">0.0909</span><span class="p">,</span> <span class="mf">1.1074</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">1.7415</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8948</span><span class="p">,</span> <span class="mf">0.218</span> <span class="p">]])</span>
+</pre></div>
+</div>
+<p>顶层方法np.sort返回数组排好序的副本而不是原位修改数组。
+一个快速但不优雅的方式计算数组分位点是排序并且选择一个具体范围的值:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">203</span><span class="p">]:</span> <span class="n">large_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">204</span><span class="p">]:</span> <span class="n">large_arr</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">205</span><span class="p">]:</span> <span class="n">large_arr</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="mf">0.05</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">large_arr</span><span class="p">))]</span> <span class="c1"># 5% quantile</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">205</span><span class="p">]:</span> <span class="o">-</span><span class="mf">1.5311513550102103</span>
+</pre></div>
+</div>
+<p>有关使用NumPy的排序方法和更高级技术如间接排序的更多详细信息，见附录A.
+几个其它与排序相关（例如通过一列或多列排序数据表）的数据处理操作也能够在pandas中找到。</p>
+</div>
+<div class="section" id="unique">
+<h2>Unique和其它集合逻辑<a class="headerlink" href="#unique" title="Permalink to this headline">¶</a></h2>
+<p>NumPy对于一维数组有一些基本的集合操作。
+经常使用的一个是np.unique，返回的数组是排好序的且值唯一:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>In [206]: names = np.array([&#39;Bob&#39;, &#39;Joe&#39;, &#39;Will&#39;, &#39;Bob&#39;, &#39;Will&#39;, &#39;Joe&#39;, &#39;Joe&#39;])
+
+In [207]: np.unique(names)
+Out[207]:
+array([&#39;Bob&#39;, &#39;Joe&#39;, &#39;Will&#39;],
+dtype=&#39;&lt;U4&#39;)
+
+In [208]: ints = np.array([3, 3, 3, 2, 2, 1, 1, 4, 4])
+
+In [209]: np.unique(ints)
+Out[209]: array([1, 2, 3, 4])
+
+与np.unique对比，纯Python替代方案是::
+
+In [210]: sorted(set(names))    # 是对np.unique的很好诠释
+Out[210]: [&#39;Bob&#39;, &#39;Joe&#39;, &#39;Will&#39;]
+</pre></div>
+</div>
+<p>另一个函数，np.in1d测试一个数组中值成员是否在另一个数组中，返回一个布尔数组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">211</span><span class="p">]:</span> <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">212</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">212</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>表4-6是NumPy集合函数清单</p>
+<a class="reference internal image-reference" href="../_images/Table_4-6_Array_set_operations.png"><img alt="../_images/Table_4-6_Array_set_operations.png" src="../_images/Table_4-6_Array_set_operations.png" style="width: 800px;" /></a>
 </div>
 </div>
 
