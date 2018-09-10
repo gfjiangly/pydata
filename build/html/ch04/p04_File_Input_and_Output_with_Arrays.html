@@ -29,7 +29,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="4.5 线性代数" href="p05_Linear_Algebra.html" />
-    <link rel="prev" title="4.3 使用数组的面向数组编程" href="p03_Array-Oriented_Programming_with_Arrays.html" /> 
+    <link rel="prev" title="4.3 面向数组的数组编程" href="p03_Array-Oriented_Programming_with_Arrays.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -82,8 +82,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../chapters/p03_build-in_data_structure_function_and_files.html">第三章：内建数据结构，函数和文件</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="p01_the_numpy_ndarray_a_multidimensional_array_object.html">4.1 NumPy ndarray：一个多维数组对象</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html">4.2 通用函数：快速逐元素(Element-Wise)数组函数</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p03_Array-Oriented_Programming_with_Arrays.html">4.3 使用数组的面向数组编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html">4.2 通用函数：快速逐元素(element-wise)数组函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_Array-Oriented_Programming_with_Arrays.html">4.3 面向数组的数组编程</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">4.4 带数组的文件输入输出</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p05_Linear_Algebra.html">4.5 线性代数</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p06_Pseudorandom_Number_Generation.html">4.6 伪随机(pseudorandom)数生成</a></li>
@@ -159,6 +159,37 @@
             
   <div class="section" id="id1">
 <h1>4.4 带数组的文件输入输出<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>NumPy能够以文本或二进制格式从磁盘保存和加载数据。
+在这个部分我仅仅讨论NumPy内置二进制格式，因为大多数用户更喜欢选择pandas和其它工具加载文本或表格数据（更多内容见第六章）。</p>
+<p>np.save和np.load是有效保存和加载磁盘上数组数据的两个主力(<strong>workhorse</strong>)函数。
+数组默认以未压缩的原始二进制格式文件后缀为.npy保存:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">213</span><span class="p">]:</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">214</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;some_array&#39;</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果文件路径不包含.npy后缀，扩展名将被追加。
+磁盘上的数组使用np.load加载:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">215</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;some_array.npy&#39;</span><span class="p">)</span>
+
+<span class="n">Out</span><span class="p">[</span><span class="mi">215</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>使用np.savez保存多个未压缩存档数组并且传递数组作为关键字参数:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">216</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="s1">&#39;array_archive.npz&#39;</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">arr</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">arr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>当加载一个.npy文件，返回一个类似于dict对象来懒加载单个数组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">217</span><span class="p">]:</span> <span class="n">arch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;array_archive.npz&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">218</span><span class="p">]:</span> <span class="n">arch</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">218</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>如果你的数据经过压缩，需要使用numpy.savez_compressed代替:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">219</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">savez_compressed</span><span class="p">(</span><span class="s1">&#39;arrays_compressed.npz&#39;</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">arr</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">arr</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 
 
@@ -172,7 +203,7 @@
         <a href="p05_Linear_Algebra.html" class="btn btn-neutral float-right" title="4.5 线性代数" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="p03_Array-Oriented_Programming_with_Arrays.html" class="btn btn-neutral" title="4.3 使用数组的面向数组编程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="p03_Array-Oriented_Programming_with_Arrays.html" class="btn btn-neutral" title="4.3 面向数组的数组编程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
