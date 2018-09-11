@@ -82,8 +82,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../chapters/p03_build-in_data_structure_function_and_files.html">第三章：内建数据结构，函数和文件</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="p01_the_numpy_ndarray_a_multidimensional_array_object.html">4.1 NumPy ndarray：一个多维数组对象</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html">4.2 通用函数：快速逐元素(Element-Wise)数组函数</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p03_Array-Oriented_Programming_with_Arrays.html">4.3 使用数组的面向数组编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html">4.2 通用函数：快速逐元素(element-wise)数组函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_Array-Oriented_Programming_with_Arrays.html">4.3 面向数组的数组编程</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p04_File_Input_and_Output_with_Arrays.html">4.4 带数组的文件输入输出</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">4.5 线性代数</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p06_Pseudorandom_Number_Generation.html">4.6 伪随机(pseudorandom)数生成</a></li>
@@ -159,6 +159,86 @@
             
   <div class="section" id="id1">
 <h1>4.5 线性代数<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>线性代数像矩阵乘法、分解(<strong>decompositions</strong>)、行列式(<strong>determinants</strong>)和其它方阵(square matrix)数学运算是任何数组库的重要组成部分。
+不像一些其它语言如MATLAB，两个二维数组用*相乘是逐元素乘积(element-wise product)而不是矩阵点积(dot product)。
+因此，对于矩阵乘法有一个dot函数，一个数组方法和一个函数都在numpy名字空间中:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">223</span><span class="p">]:</span> <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">],</span> <span class="p">[</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">224</span><span class="p">]:</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">6.</span><span class="p">,</span> <span class="mf">23.</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">225</span><span class="p">]:</span> <span class="n">x</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">225</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">226</span><span class="p">]:</span> <span class="n">y</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">226</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">6.</span><span class="p">,</span> <span class="mf">23.</span><span class="p">],</span>
+<span class="p">[</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">7.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">8.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">227</span><span class="p">]:</span> <span class="n">x</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">227</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">28.</span><span class="p">,</span> <span class="mf">64.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">67.</span><span class="p">,</span> <span class="mf">181.</span><span class="p">]])</span>
+
+<span class="n">x</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="n">与np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span><span class="n">效果相同</span><span class="p">::</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">228</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">228</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">28.</span><span class="p">,</span> <span class="mf">64.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">67.</span><span class="p">,</span> <span class="mf">181.</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>二维数组和适当大小的一维阵列之间的矩阵乘积(product)产生一维数组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>In [229]: np.dot(x, np.ones(3))
+Out[229]: array([ 6., 15.])
+
+@符号（从Python 3.5开始(as of Python 3.5)）也可以作为执行矩阵的中缀(**infix**)运算符乘法(multiplication)::
+
+In [230]: x @ np.ones(3)
+Out[230]: array([ 6., 15.])
+</pre></div>
+</div>
+<p>numpy.linalg有一个标准矩阵分解、求逆和行列式集合。
+这些是通过相同的行业标准引擎下实现的线性代数库，这个库也用于其他语言如MATLAB和R。这样的库如BLAS，LAPACK或可能（取决于您的NumPy版本）专有的英特尔MKL（数学核心库）:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">231</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">inv</span><span class="p">,</span> <span class="n">qr</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">232</span><span class="p">]:</span> <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">233</span><span class="p">]:</span> <span class="n">mat</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">234</span><span class="p">]:</span> <span class="n">inv</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">234</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">933.1189</span><span class="p">,</span> <span class="mf">871.8258</span><span class="p">,</span> <span class="o">-</span><span class="mf">1417.6902</span><span class="p">,</span> <span class="o">-</span><span class="mf">1460.4005</span><span class="p">,</span> <span class="mf">1782.1391</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">871.8258</span><span class="p">,</span> <span class="mf">815.3929</span><span class="p">,</span> <span class="o">-</span><span class="mf">1325.9965</span><span class="p">,</span> <span class="o">-</span><span class="mf">1365.9242</span><span class="p">,</span> <span class="mf">1666.9347</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">1417.6902</span><span class="p">,</span> <span class="o">-</span><span class="mf">1325.9965</span><span class="p">,</span> <span class="mf">2158.4424</span><span class="p">,</span> <span class="mf">2222.0191</span><span class="p">,</span> <span class="o">-</span><span class="mf">2711.6822</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">1460.4005</span><span class="p">,</span> <span class="o">-</span><span class="mf">1365.9242</span><span class="p">,</span> <span class="mf">2222.0191</span><span class="p">,</span> <span class="mf">2289.0575</span><span class="p">,</span> <span class="o">-</span><span class="mf">2793.422</span> <span class="p">],</span>
+<span class="p">[</span> <span class="mf">1782.1391</span><span class="p">,</span> <span class="mf">1666.9347</span><span class="p">,</span> <span class="o">-</span><span class="mf">2711.6822</span><span class="p">,</span> <span class="o">-</span><span class="mf">2793.422</span> <span class="p">,</span> <span class="mf">3409.5128</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">235</span><span class="p">]:</span> <span class="n">mat</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">inv</span><span class="p">(</span><span class="n">mat</span><span class="p">))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">235</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.</span><span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">236</span><span class="p">]:</span> <span class="n">q</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">qr</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">237</span><span class="p">]:</span> <span class="n">r</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">237</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">1.6914</span><span class="p">,</span> <span class="mf">4.38</span> <span class="p">,</span> <span class="mf">0.1757</span><span class="p">,</span> <span class="mf">0.4075</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7838</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span> <span class="p">,</span> <span class="o">-</span><span class="mf">2.6436</span><span class="p">,</span> <span class="mf">0.1939</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.072</span> <span class="p">,</span> <span class="o">-</span><span class="mf">1.0702</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.8138</span><span class="p">,</span> <span class="mf">1.5414</span><span class="p">,</span> <span class="mf">0.6155</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="o">-</span><span class="mf">2.6445</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.1669</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.0002</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>表达式X.T.dot(X)计算x和它的转置x.T的点积。
+见表4-7 一些最常用的线性代数函数清单。</p>
+<a class="reference internal image-reference" href="../_images/Table_4-7_Commonly_used_numpy_linalg_functions_1.png"><img alt="../_images/Table_4-7_Commonly_used_numpy_linalg_functions_1.png" src="../_images/Table_4-7_Commonly_used_numpy_linalg_functions_1.png" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="../_images/Table_4-7_Commonly_used_numpy_linalg_functions_2.png"><img alt="../_images/Table_4-7_Commonly_used_numpy_linalg_functions_2.png" src="../_images/Table_4-7_Commonly_used_numpy_linalg_functions_2.png" style="width: 800px;" /></a>
 </div>
 
 
