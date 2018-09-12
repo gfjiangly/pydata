@@ -82,8 +82,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../chapters/p03_build-in_data_structure_function_and_files.html">第三章：内建数据结构，函数和文件</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="p01_the_numpy_ndarray_a_multidimensional_array_object.html">4.1 NumPy ndarray：一个多维数组对象</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html">4.2 通用函数：快速逐元素(Element-Wise)数组函数</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p03_Array-Oriented_Programming_with_Arrays.html">4.3 使用数组的面向数组编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html">4.2 通用函数：快速逐元素(element-wise)数组函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_Array-Oriented_Programming_with_Arrays.html">4.3 面向数组的数组编程</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p04_File_Input_and_Output_with_Arrays.html">4.4 带数组的文件输入输出</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p05_Linear_Algebra.html">4.5 线性代数</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">4.6 伪随机(pseudorandom)数生成</a></li>
@@ -159,6 +159,48 @@
             
   <div class="section" id="pseudorandom">
 <h1>4.6 伪随机(pseudorandom)数生成<a class="headerlink" href="#pseudorandom" title="Permalink to this headline">¶</a></h1>
+<p>numpy.rondm模块对于高效从各种概率分布生成整个数组扩充(<strong>supplements</strong>)了Python内置random函数。
+例如，你可以使用normal从标准正态分布采样得到一个4*4数组:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">238</span><span class="p">]:</span> <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">239</span><span class="p">]:</span> <span class="n">samples</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">239</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">0.5732</span><span class="p">,</span> <span class="mf">0.1933</span><span class="p">,</span> <span class="mf">0.4429</span><span class="p">,</span> <span class="mf">1.2796</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.575</span> <span class="p">,</span> <span class="mf">0.4339</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7658</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.237</span> <span class="p">],</span>
+<span class="p">[</span><span class="o">-</span><span class="mf">0.5367</span><span class="p">,</span> <span class="mf">1.8545</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.92</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.1082</span><span class="p">],</span>
+<span class="p">[</span> <span class="mf">0.1525</span><span class="p">,</span> <span class="mf">0.9435</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0953</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.144</span> <span class="p">]])</span>
+</pre></div>
+</div>
+<p>作为对比，Python内置random模块仅仅每次采样一个值。
+从这个基准测试(<strong>benchmark</strong>)中可以看出，numpy.random在生成非常大的样本时要快一个数量级(an order of magnitude):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">240</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">normalvariate</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">241</span><span class="p">]:</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">1000000</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">242</span><span class="p">]:</span> <span class="o">%</span><span class="n">timeit</span> <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">normalvariate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+<span class="mf">1.77</span> <span class="n">s</span> <span class="o">+-</span> <span class="mi">126</span> <span class="n">ms</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="o">+-</span> <span class="n">std</span><span class="o">.</span> <span class="n">dev</span><span class="o">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">1</span> <span class="n">loop</span> <span class="n">each</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">243</span><span class="p">]:</span> <span class="o">%</span><span class="n">timeit</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+<span class="mf">61.7</span> <span class="n">ms</span> <span class="o">+-</span> <span class="mf">1.32</span> <span class="n">ms</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="o">+-</span> <span class="n">std</span><span class="o">.</span> <span class="n">dev</span><span class="o">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">10</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>我们说这是伪随机数是因为它们通过基于随机数生成器种子的一个确定性(<strong>deterministic</strong>)行为的算法。
+你能使用np.random.seed改变NumPy的随机数生成器种子:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">244</span><span class="p">]:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在numpy.random中数据生成函数使用一个全局随机种子。
+我们能使用numpy.random.RandomState创建一个与其它隔离的随机数生成器来避免全局状态:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">245</span><span class="p">]:</span> <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">246</span><span class="p">]:</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">246</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([</span> <span class="mf">0.4714</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.191</span> <span class="p">,</span> <span class="mf">1.4327</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3127</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7206</span><span class="p">,</span> <span class="mf">0.8872</span><span class="p">,</span> <span class="mf">0.8596</span><span class="p">,</span>
+<span class="o">-</span><span class="mf">0.6365</span><span class="p">,</span> <span class="mf">0.0157</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.2427</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>见表4-8 numpy.random部分可用函数清单。在下一节中我将举例说明利用(<strong>leverage</strong>)这些函数一次生成大量样本的能力。</p>
+<a class="reference internal image-reference" href="../_images/Table_4-8._Partial_list_of_numpy.random_functions.png"><img alt="../_images/Table_4-8._Partial_list_of_numpy.random_functions.png" src="../_images/Table_4-8._Partial_list_of_numpy.random_functions.png" style="width: 800px;" /></a>
 </div>
 
 
