@@ -82,8 +82,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../chapters/p03_build-in_data_structure_function_and_files.html">第三章：内建数据结构，函数和文件</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../chapters/p04_numpy_basics_arrays_and_vectorized_computation.html">第四章：numpy基础：数组和向量化计算</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="p01_the_numpy_ndarray_a_multidimensional_array_object.html">4.1 NumPy ndarray：一个多维数组对象</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html">4.2 通用函数：快速逐元素(Element-Wise)数组函数</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p03_Array-Oriented_Programming_with_Arrays.html">4.3 使用数组的面向数组编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p02_Universal_Functions_Fast_Element-Wise_Array_Functions.html">4.2 通用函数：快速逐元素(element-wise)数组函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p03_Array-Oriented_Programming_with_Arrays.html">4.3 面向数组的数组编程</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p04_File_Input_and_Output_with_Arrays.html">4.4 带数组的文件输入输出</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p05_Linear_Algebra.html">4.5 线性代数</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p06_Pseudorandom_Number_Generation.html">4.6 伪随机(pseudorandom)数生成</a></li>
@@ -159,6 +159,53 @@
             
   <div class="section" id="id1">
 <h1>4.7 示例：随机游走<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>随机游走仿真提供一个说明性使用(<strong>utilize</strong>)数组操作应用。
+让我们考虑一个简单的随机游走，从0开始，步长为1和-1，等概率发生。</p>
+<p>这儿有一个纯Python方式实现的一个简单随机游走，1000个步长，使用内建的random模块:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">247</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">random</span>
+<span class="o">.....</span><span class="p">:</span> <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="o">.....</span><span class="p">:</span> <span class="n">walk</span> <span class="o">=</span> <span class="p">[</span><span class="n">position</span><span class="p">]</span>
+<span class="o">.....</span><span class="p">:</span> <span class="n">steps</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="o">.....</span><span class="p">:</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+<span class="o">.....</span><span class="p">:</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+<span class="o">.....</span><span class="p">:</span> <span class="n">position</span> <span class="o">+=</span> <span class="n">step</span>
+<span class="o">.....</span><span class="p">:</span> <span class="n">walk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+<span class="o">.....</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>见图4-4 在一次随机中前100个值的绘图例子:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">249</span><span class="p">]:</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">walk</span><span class="p">[:</span><span class="mi">100</span><span class="p">])</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/Figure_4-4._A_simple_random_walk.png"><img alt="../_images/Figure_4-4._A_simple_random_walk.png" src="../_images/Figure_4-4._A_simple_random_walk.png" style="width: 800px;" /></a>
+<p>你可能观察到游走是简单地随机步长累加并且可以使用一个数组表达式产生。因此，我使用np.random模块一次画1000个抛硬币，结果置为1和-1，并且计算累(<strong>cumulative</strong>)加值:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">251</span><span class="p">]:</span> <span class="n">nsteps</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">252</span><span class="p">]:</span> <span class="n">draws</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">nsteps</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">253</span><span class="p">]:</span> <span class="n">steps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">draws</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">254</span><span class="p">]:</span> <span class="n">walk</span> <span class="o">=</span> <span class="n">steps</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>我们能从中提取统计量如沿游走轨线最大最小值:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">255</span><span class="p">]:</span> <span class="n">walk</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">255</span><span class="p">]:</span> <span class="o">-</span><span class="mi">3</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">256</span><span class="p">]:</span> <span class="n">walk</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">256</span><span class="p">]:</span> <span class="mi">31</span>
+</pre></div>
+</div>
+<p>一个更复杂的统计是第一次交叉时间，随机游走达到某个具体值的步数。
+在这里，我们可能想知道随机游走在任一方向上距起点0至少10步之间需要多长时间。
+np.abs(walk) &gt;= 10 给我们一个布尔数组表明游走在哪里到达或超过10，但是我们可能想知道第一个10或-10的位置。
+结果是，我们使用argmax，返回在布尔数组中第一个最大值索引（True是最大值）:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">257</span><span class="p">]:</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">walk</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">257</span><span class="p">]:</span> <span class="mi">37</span>
+</pre></div>
+</div>
+<p>注意这里使用argmax不是一直高效的，因为它一直对数组做完整的扫描。
+在这个具体例子中，一旦True被观察到我们就已经知道它是最大值，无须再对后面值进行扫描。</p>
 </div>
 
 
